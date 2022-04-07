@@ -2971,45 +2971,15 @@
 											}
 										}
 									],
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {}
+									},
 									"request": {
 										"auth": {
-											"type": "basic",
-											"basic": [
-												{
-													"key": "password",
-													"value": "{{cc_admin_client_secret}}",
-													"type": "string"
-												},
-												{
-													"key": "username",
-													"value": "{{cc_admin_client_id}}",
-													"type": "string"
-												},
-												{
-													"key": "saveHelperData",
-													"value": true,
-													"type": "boolean"
-												},
-												{
-													"key": "showPassword",
-													"value": false,
-													"type": "boolean"
-												}
-											]
+											"type": "noauth"
 										},
 										"method": "POST",
-										"header": [
-											{
-												"key": "Content-Type",
-												"value": "application/x-www-form-urlencoded",
-												"disabled": true
-											},
-											{
-												"key": "Authorization",
-												"value": "Basic Y2RzOmNkcw==",
-												"disabled": true
-											}
-										],
+										"header": [],
 										"body": {
 											"mode": "urlencoded",
 											"urlencoded": [
@@ -3020,15 +2990,13 @@
 												},
 												{
 													"key": "client_id",
-													"value": "{{client_id}}",
-													"type": "text",
-													"disabled": true
+													"value": "{{cc_admin_client_id}}",
+													"type": "text"
 												},
 												{
 													"key": "client_secret",
-													"value": "{{client_secret}}",
-													"type": "text",
-													"disabled": true
+													"value": "{{cc_admin_client_secret}}",
+													"type": "text"
 												},
 												{
 													"key": "scope",
@@ -4230,12 +4198,12 @@
 									"basic": [
 										{
 											"key": "password",
-											"value": "325bd3d9-80d7-4b40-8d81-85c3742db5db",
+											"value": "{{client_secret}}",
 											"type": "string"
 										},
 										{
 											"key": "username",
-											"value": "ce3cd8cb-686d-4267-aef0-eac374b85511",
+											"value": "{{client_id}}",
 											"type": "string"
 										},
 										{
@@ -4286,7 +4254,8 @@
 										{
 											"key": "scope",
 											"value": "fr:idm:* dynamic_client_registration",
-											"type": "text"
+											"type": "text",
+											"disabled": true
 										}
 									]
 								},
@@ -7128,7 +7097,7 @@
 															}
 														],
 														"url": {
-															"raw": "{{host}}{{am-context}}/json{{realm}}/realm-config/authentication/authenticationtrees/trees/MFAWithEmailOTP",
+															"raw": "{{host}}{{am-context}}/json{{realm}}/realm-config/authentication/authenticationtrees/trees/MFAWithVoiceOTP",
 															"host": [
 																"{{host}}{{am-context}}"
 															],
@@ -7138,7 +7107,7 @@
 																"authentication",
 																"authenticationtrees",
 																"trees",
-																"MFAWithEmailOTP"
+																"MFAWithVoiceOTP"
 															]
 														}
 													},
@@ -8545,6 +8514,64 @@
 											"response": []
 										}
 									]
+								},
+								{
+									"name": "Dashboard",
+									"item": [
+										{
+											"name": "Get Dashboard Services",
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "accept-api-version",
+														"value": "protocol=1.0,resource=1.0",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{host}}{{am-context}}/json{{realm}}/realm-config/services/dashboard",
+													"host": [
+														"{{host}}{{am-context}}"
+													],
+													"path": [
+														"json{{realm}}",
+														"realm-config",
+														"services",
+														"dashboard"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Get Users Dashboard Services",
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "accept-api-version",
+														"value": "protocol=1.0,resource=1.0",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{host}}{{am-context}}/json{{realm}}/users/df34b0c9-9a09-4258-867f-441f809599ae/services/dashboard",
+													"host": [
+														"{{host}}{{am-context}}"
+													],
+													"path": [
+														"json{{realm}}",
+														"users",
+														"df34b0c9-9a09-4258-867f-441f809599ae",
+														"services",
+														"dashboard"
+													]
+												}
+											},
+											"response": []
+										}
+									]
 								}
 							]
 						},
@@ -9214,37 +9241,37 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "List SAML2 entity providers Copy",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{host}}{{am-context}}/json{{realm}}/realm-config/saml2?_prettyPrint=true&_queryFilter=entityId%20co%20%22Azure%22",
+											"host": [
+												"{{host}}{{am-context}}"
+											],
+											"path": [
+												"json{{realm}}",
+												"realm-config",
+												"saml2"
+											],
+											"query": [
+												{
+													"key": "_prettyPrint",
+													"value": "true"
+												},
+												{
+													"key": "_queryFilter",
+													"value": "entityId%20co%20%22Azure%22"
+												}
+											]
+										}
+									},
+									"response": []
 								}
 							]
-						},
-						{
-							"name": "List SAML2 entity providers Copy",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}{{am-context}}/json{{realm}}/realm-config/saml2?_prettyPrint=true&_queryFilter=entityId%20co%20%22Azure%22",
-									"host": [
-										"{{host}}{{am-context}}"
-									],
-									"path": [
-										"json{{realm}}",
-										"realm-config",
-										"saml2"
-									],
-									"query": [
-										{
-											"key": "_prettyPrint",
-											"value": "true"
-										},
-										{
-											"key": "_queryFilter",
-											"value": "entityId%20co%20%22Azure%22"
-										}
-									]
-								}
-							},
-							"response": []
 						}
 					]
 				},
@@ -9436,7 +9463,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{host}}{{am-context}}/json{{realm}}/users/0bf0d4fc-6273-4e8e-a2ce-899df2ee96d4/devices/2fa/push/f22d5193-69d4-4382-a079-45e7a84735c0",
+											"raw": "{{host}}{{am-context}}/json{{realm}}/users/0bf0d4fc-6273-4e8e-a2ce-899df2ee96d4/devices/2fa/push/4ed60308-50a9-4067-9c7b-fdfcfd25d7da",
 											"host": [
 												"{{host}}{{am-context}}"
 											],
@@ -9447,7 +9474,7 @@
 												"devices",
 												"2fa",
 												"push",
-												"f22d5193-69d4-4382-a079-45e7a84735c0"
+												"4ed60308-50a9-4067-9c7b-fdfcfd25d7da"
 											]
 										}
 									},
@@ -9465,14 +9492,14 @@
 											}
 										],
 										"url": {
-											"raw": "{{host}}{{am-context}}/json{{realm}}/users/a5e3d57e-848d-44b7-888e-b5371138f88d/devices/2fa/push?_action=reset",
+											"raw": "{{host}}{{am-context}}/json{{realm}}/users/0bf0d4fc-6273-4e8e-a2ce-899df2ee96d4/devices/2fa/push?_action=reset",
 											"host": [
 												"{{host}}{{am-context}}"
 											],
 											"path": [
 												"json{{realm}}",
 												"users",
-												"a5e3d57e-848d-44b7-888e-b5371138f88d",
+												"0bf0d4fc-6273-4e8e-a2ce-899df2ee96d4",
 												"devices",
 												"2fa",
 												"push"
@@ -11617,6 +11644,125 @@
 							]
 						},
 						{
+							"name": "/repo.ds",
+							"item": [
+								{
+									"name": "Get repo.ds.json",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{openamAccessToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-OpenIDM-Username",
+												"value": "openidm-admin",
+												"disabled": true
+											},
+											{
+												"key": "X-OpenIDM-Password",
+												"value": "{{openidmPassword}}",
+												"disabled": true
+											}
+										],
+										"url": {
+											"raw": "{{host}}/openidm/config/repo.ds",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"openidm",
+												"config",
+												"repo.ds"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Put repo.ds.json",
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {
+											"accept": true,
+											"connection": true
+										}
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{openamAccessToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [
+											{
+												"key": "if-match",
+												"value": "\"*\"",
+												"type": "text"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json, text/javascript, */*; q=0.01",
+												"type": "text"
+											},
+											{
+												"key": "X-Requested-With",
+												"value": "XMLHttpRequest",
+												"type": "text"
+											},
+											{
+												"key": "Origin",
+												"value": "{{host}}",
+												"type": "text"
+											},
+											{
+												"key": "Accept-Language",
+												"value": "en-us",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"_id\": \"repo.ds\",\n    \"embedded\": false,\n    \"maxConnectionAttempts\": 5,\n    \"security\": {\n        \"keyManager\": \"jvm\",\n        \"trustManager\": \"jvm\"\n    },\n    \"ldapConnectionFactories\": {\n        \"bind\": {\n            \"connectionSecurity\": \"none\",\n            \"connectionPoolSize\": 50,\n            \"heartBeatIntervalSeconds\": 60,\n            \"heartBeatTimeoutMilliSeconds\": 10000,\n            \"availabilityCheckIntervalSeconds\": 30,\n            \"availabilityCheckTimeoutMilliSeconds\": 10000,\n            \"primaryLdapServers\": [\n                {\n                    \"hostname\": \"userstore-0.userstore\",\n                    \"port\": 1389\n                }\n            ],\n            \"secondaryLdapServers\": [\n                {\n                    \"hostname\": \"userstore-2.userstore\",\n                    \"port\": 1389\n                }\n            ]\n        },\n        \"root\": {\n            \"inheritFrom\": \"bind\",\n            \"authentication\": {\n                \"simple\": {\n                    \"bindDn\": \"uid=admin\",\n                    \"bindPassword\": \"&{userstore.password}\"\n                }\n            }\n        }\n    },\n    \"queries\": {\n        \"generic\": {\n            \"query-all-ids\": {\n                \"_queryFilter\": \"true\",\n                \"_fields\": \"_id,_rev\"\n            },\n            \"credential-query\": {\n                \"_queryFilter\": \"/userName eq \\\"${username}\\\"\"\n            },\n            \"credential-internaluser-query\": {\n                \"_queryFilter\": \"/_id eq \\\"${username}\\\"\"\n            },\n            \"get-by-field-value\": {\n                \"_queryFilter\": \"/${field} eq \\\"${value}\\\"\"\n            },\n            \"for-userName\": {\n                \"_queryFilter\": \"/userName eq \\\"${uid}\\\"\"\n            },\n            \"query-all\": {\n                \"_queryFilter\": \"true\"\n            },\n            \"links-for-firstId\": {\n                \"_queryFilter\": \"/linkType eq \\\"${linkType}\\\" AND /firstId = \\\"${firstId}\\\"\"\n            },\n            \"links-for-linkType\": {\n                \"_queryFilter\": \"/linkType eq \\\"${linkType}\\\"\"\n            },\n            \"get-recons\": {\n                \"_queryFilter\": \"/entryType eq \\\"summary\\\"\",\n                \"_fields\": \"reconId,mapping,activitydate\",\n                \"_sortKeys\": \"-activitydate\"\n            },\n            \"get-notifications-for-user\": {\n                \"_queryFilter\": \"/receiverId eq \\\"${userId}\\\"\",\n                \"_sortKeys\": \"-createDate\"\n            },\n            \"query-cluster-failed-instances\": {\n                \"_queryFilter\": \"/timestamp le ${timestamp} and (/state eq \\\"1\\\" or /state eq \\\"2\\\")\"\n            },\n            \"query-cluster-running-instances\": {\n                \"_queryFilter\": \"/state eq 1\"\n            },\n            \"query-cluster-instances\": {\n                \"_queryFilter\": \"true\"\n            },\n            \"query-cluster-events\": {\n                \"_queryFilter\": \"/instanceId eq \\\"${instanceId}\\\"\"\n            },\n            \"find-relationships-for-resource\": {\n                \"_queryFilter\": \"(/firstResourceCollection eq \\\"${resourceCollection}\\\" and /firstResourceId eq \\\"${resourceId}\\\" and /firstPropertyName eq \\\"${propertyName}\\\") or (/secondResourceCollection eq \\\"${resourceCollection}\\\" and /secondResourceId eq \\\"${resourceId}\\\" and /secondPropertyName eq \\\"${propertyName}\\\")\"\n            },\n            \"find-relationship-edges\": {\n                \"_queryFilter\": \"((/firstResourceCollection eq \\\"${firstResourceCollection}\\\" and /firstResourceId eq \\\"${firstResourceId}\\\" and /firstPropertyName eq \\\"${firstPropertyName}\\\") and (/secondResourceCollection eq \\\"${secondResourceCollection}\\\" and /secondResourceId eq \\\"${secondResourceId}\\\" and /secondPropertyName eq \\\"${secondPropertyName}\\\")) or ((/firstResourceCollection eq \\\"${secondResourceCollection}\\\" and /firstResourceId eq \\\"${secondResourceId}\\\" and /firstPropertyName eq \\\"${secondPropertyName}\\\") and (/secondResourceCollection eq \\\"${firstResourceCollection}\\\" and /secondResourceId eq \\\"${firstResourceId}\\\" and /secondPropertyName eq \\\"${firstPropertyName}\\\"))\"\n            }\n        },\n        \"explicit\": {\n            \"query-all-ids\": {\n                \"_queryFilter\": \"true\",\n                \"_fields\": \"_id,_rev\"\n            },\n            \"credential-query\": {\n                \"_queryFilter\": \"/userName eq \\\"${username}\\\"\"\n            },\n            \"credential-internaluser-query\": {\n                \"_queryFilter\": \"/_id eq \\\"${username}\\\"\"\n            },\n            \"links-for-firstId\": {\n                \"_queryFilter\": \"/linkType eq \\\"${linkType}\\\" AND /firstId = \\\"${firstId}\\\"\"\n            },\n            \"links-for-linkType\": {\n                \"_queryFilter\": \"/linkType eq \\\"${linkType}\\\"\"\n            },\n            \"for-userName\": {\n                \"_queryFilter\": \"/userName eq \\\"${uid}\\\"\"\n            },\n            \"query-all\": {\n                \"_queryFilter\": \"true\"\n            }\n        }\n    },\n    \"commands\": {\n        \"delete-mapping-links\": {\n            \"_queryFilter\": \"/linkType eq \\\"${mapping}\\\"\",\n            \"operation\": \"DELETE\"\n        },\n        \"delete-target-ids-for-recon\": {\n            \"_queryFilter\": \"/reconId eq \\\"${reconId}\\\"\",\n            \"operation\": \"DELETE\"\n        }\n    },\n    \"rest2LdapOptions\": {\n        \"readOnUpdatePolicy\": \"controls\",\n        \"useSubtreeDelete\": true,\n        \"usePermissiveModify\": true,\n        \"useMvcc\": true,\n        \"mvccAttribute\": \"etag\",\n        \"returnNullForMissingProperties\": true\n    },\n    \"resourceMapping\": {\n        \"defaultMapping\": {\n            \"dnTemplate\": \"ou=generic,dc=openidm,dc=example,dc=com\"\n        },\n        \"explicitMapping\": {\n            \"internal/user\": {\n                \"dnTemplate\": \"ou=users,ou=internal,dc=openidm,dc=example,dc=com\",\n                \"objectClasses\": [\n                    \"uidObject\",\n                    \"fr-idm-internal-user\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"uid\",\n                        \"isRequired\": true,\n                        \"writability\": \"createOnly\"\n                    },\n                    \"password\": {\n                        \"type\": \"json\",\n                        \"ldapAttribute\": \"fr-idm-password\"\n                    }\n                }\n            },\n            \"internal/role\": {\n                \"dnTemplate\": \"ou=roles,ou=internal,dc=openidm,dc=example,dc=com\",\n                \"objectClasses\": [\n                    \"fr-idm-internal-role\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"cn\",\n                        \"isRequired\": true,\n                        \"writability\": \"createOnly\"\n                    },\n                    \"name\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-name\"\n                    },\n                    \"description\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"description\"\n                    },\n                    \"temporalConstraints\": {\n                        \"type\": \"json\",\n                        \"ldapAttribute\": \"fr-idm-temporal-constraints\",\n                        \"isMultiValued\": true\n                    },\n                    \"condition\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-condition\"\n                    },\n                    \"privileges\": {\n                        \"type\": \"json\",\n                        \"ldapAttribute\": \"fr-idm-privilege\",\n                        \"isMultiValued\": true\n                    },\n                    \"authzMembers\": {\n                        \"isMultiValued\": true,\n                        \"type\": \"reverseReference\",\n                        \"resourcePath\": \"managed/alpha_user\",\n                        \"propertyName\": \"authzRoles\"\n                    }\n                }\n            },\n            \"locks\": {\n                \"dnTemplate\": \"ou=locks,dc=openidm,dc=example,dc=com\",\n                \"objectClasses\": [\n                    \"uidObject\",\n                    \"fr-idm-lock\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"uid\",\n                        \"isRequired\": true,\n                        \"writability\": \"createOnly\"\n                    },\n                    \"nodeId\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-lock-nodeid\"\n                    }\n                }\n            },\n            \"sync/queue\": {\n                \"dnTemplate\": \"ou=queue,ou=sync,dc=openidm,dc=example,dc=com\",\n                \"objectClasses\": [\n                    \"uidObject\",\n                    \"fr-idm-syncqueue\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"uid\",\n                        \"isRequired\": true,\n                        \"writability\": \"createOnly\"\n                    },\n                    \"syncAction\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-syncqueue-syncaction\"\n                    },\n                    \"resourceCollection\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-syncqueue-resourcecollection\"\n                    },\n                    \"resourceId\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-syncqueue-resourceid\"\n                    },\n                    \"mapping\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-syncqueue-mapping\"\n                    },\n                    \"objectRev\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-syncqueue-objectRev\"\n                    },\n                    \"oldObject\": {\n                        \"type\": \"json\",\n                        \"ldapAttribute\": \"fr-idm-syncqueue-oldobject\"\n                    },\n                    \"newObject\": {\n                        \"type\": \"json\",\n                        \"ldapAttribute\": \"fr-idm-syncqueue-newobject\"\n                    },\n                    \"context\": {\n                        \"type\": \"json\",\n                        \"ldapAttribute\": \"fr-idm-syncqueue-context\"\n                    },\n                    \"state\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-syncqueue-state\"\n                    },\n                    \"nodeId\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-syncqueue-nodeid\"\n                    },\n                    \"remainingRetries\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-syncqueue-remainingretries\"\n                    },\n                    \"createDate\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-syncqueue-createdate\"\n                    }\n                }\n            },\n            \"link\": {\n                \"dnTemplate\": \"ou=links,dc=openidm,dc=example,dc=com\",\n                \"objectClasses\": [\n                    \"uidObject\",\n                    \"fr-idm-link\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"uid\",\n                        \"isRequired\": true,\n                        \"writability\": \"createOnly\"\n                    },\n                    \"linkType\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-link-type\"\n                    },\n                    \"linkQualifier\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-link-qualifier\"\n                    },\n                    \"firstId\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-link-firstId\"\n                    },\n                    \"secondId\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-link-secondId\"\n                    }\n                }\n            },\n            \"clusteredrecontargetids\": {\n                \"dnTemplate\": \"ou=clusteredrecontargetids,dc=openidm,dc=example,dc=com\",\n                \"objectClasses\": [\n                    \"uidObject\",\n                    \"fr-idm-recon-clusteredTargetIds\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"uid\",\n                        \"isRequired\": true,\n                        \"writability\": \"createOnly\"\n                    },\n                    \"reconId\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-recon-id\"\n                    },\n                    \"targetIds\": {\n                        \"type\": \"json\",\n                        \"ldapAttribute\": \"fr-idm-recon-targetIds\"\n                    }\n                }\n            },\n            \"identities/alpha\": {\n                \"dnTemplate\": \"o=alpha,o=root,ou=identities\",\n                \"namingStrategy\": {\n                    \"type\": \"clientDnNaming\",\n                    \"dnAttribute\": \"ou\"\n                },\n                \"isReadOnly\": true,\n                \"objectClasses\": [\n                    \"organizationalunit\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"primaryKey\": true,\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ou\"\n                    },\n                    \"_rev\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"etag\"\n                    },\n                    \"count\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"numSubordinates\",\n                        \"isRequired\": true,\n                        \"writability\": \"readOnly\"\n                    }\n                }\n            },\n            \"identities/bravo\": {\n                \"dnTemplate\": \"o=bravo,o=root,ou=identities\",\n                \"namingStrategy\": {\n                    \"type\": \"clientDnNaming\",\n                    \"dnAttribute\": \"ou\"\n                },\n                \"isReadOnly\": true,\n                \"objectClasses\": [\n                    \"organizationalunit\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"primaryKey\": true,\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ou\"\n                    },\n                    \"_rev\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"etag\"\n                    },\n                    \"count\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"numSubordinates\",\n                        \"isRequired\": true,\n                        \"writability\": \"readOnly\"\n                    }\n                }\n            },\n            \"identities/admin\": {\n                \"dnTemplate\": \"o=root,ou=identities\",\n                \"namingStrategy\": {\n                    \"type\": \"clientDnNaming\",\n                    \"dnAttribute\": \"ou\"\n                },\n                \"isReadOnly\": true,\n                \"objectClasses\": [\n                    \"organizationalunit\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"primaryKey\": true,\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ou\"\n                    },\n                    \"_rev\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"etag\"\n                    },\n                    \"count\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"numSubordinates\",\n                        \"isRequired\": true,\n                        \"writability\": \"readOnly\"\n                    }\n                }\n            },\n            \"managed/alpha_group\": {\n                \"dnTemplate\": \"ou=groups,o=alpha,o=root,ou=identities\",\n                \"namingStrategy\": {\n                    \"dnAttribute\": \"cn\",\n                    \"idAttribute\": \"entryDN\",\n                    \"type\": \"serverNaming\"\n                },\n                \"nativeId\": true,\n                \"objectClasses\": [\n                    \"groupofuniquenames\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"ldapAttribute\": \"entryDN\",\n                        \"primaryKey\": true,\n                        \"type\": \"simple\",\n                        \"writability\": \"createOnly\"\n                    },\n                    \"_rev\": {\n                        \"ldapAttribute\": \"etag\",\n                        \"type\": \"simple\"\n                    },\n                    \"cn\": {\n                        \"ldapAttribute\": \"cn\",\n                        \"type\": \"simple\",\n                        \"writability\": \"createOnly\"\n                    },\n                    \"uniqueMember\": {\n                        \"isMultiValued\": true,\n                        \"ldapAttribute\": \"uniqueMember\",\n                        \"type\": \"simple\"\n                    }\n                }\n            },\n            \"managed/bravo_group\": {\n                \"dnTemplate\": \"ou=groups,o=bravo,o=root,ou=identities\",\n                \"namingStrategy\": {\n                    \"dnAttribute\": \"cn\",\n                    \"idAttribute\": \"entryDN\",\n                    \"type\": \"serverNaming\"\n                },\n                \"nativeId\": true,\n                \"objectClasses\": [\n                    \"groupofuniquenames\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"ldapAttribute\": \"entryDN\",\n                        \"primaryKey\": true,\n                        \"type\": \"simple\",\n                        \"writability\": \"createOnly\"\n                    },\n                    \"_rev\": {\n                        \"ldapAttribute\": \"etag\",\n                        \"type\": \"simple\"\n                    },\n                    \"cn\": {\n                        \"ldapAttribute\": \"cn\",\n                        \"type\": \"simple\",\n                        \"writability\": \"createOnly\"\n                    },\n                    \"uniqueMember\": {\n                        \"isMultiValued\": true,\n                        \"ldapAttribute\": \"uniqueMember\",\n                        \"type\": \"simple\"\n                    }\n                }\n            },\n            \"managed/teammember\": {\n                \"dnTemplate\": \"ou=people,o=root,ou=identities\",\n                \"namingStrategy\": {\n                    \"type\": \"clientDnNaming\",\n                    \"dnAttribute\": \"fr-idm-uuid\"\n                },\n                \"nativeId\": false,\n                \"objectClasses\": [\n                    \"person\",\n                    \"organizationalPerson\",\n                    \"inetOrgPerson\",\n                    \"fraas-admin\",\n                    \"iplanet-am-user-service\",\n                    \"deviceProfilesContainer\",\n                    \"devicePrintProfilesContainer\",\n                    \"kbaInfoContainer\",\n                    \"fr-idm-managed-user-explicit\",\n                    \"forgerock-am-dashboard-service\",\n                    \"inetuser\",\n                    \"iplanet-am-auth-configuration-service\",\n                    \"iplanet-am-managed-person\",\n                    \"iPlanetPreferences\",\n                    \"oathDeviceProfilesContainer\",\n                    \"pushDeviceProfilesContainer\",\n                    \"sunAMAuthAccountLockout\",\n                    \"sunFMSAML2NameIdentifier\",\n                    \"webauthnDeviceProfilesContainer\",\n                    \"fr-idm-hybrid-obj\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"primaryKey\": true,\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-uuid\"\n                    },\n                    \"userName\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"uid\"\n                    },\n                    \"cn\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"cn\"\n                    },\n                    \"password\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"userPassword\"\n                    },\n                    \"givenName\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"givenName\"\n                    },\n                    \"sn\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"sn\"\n                    },\n                    \"mail\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"mail\"\n                    },\n                    \"accountStatus\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"inetUserStatus\"\n                    },\n                    \"inviteDate\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-inviteDate\"\n                    },\n                    \"jurisdiction\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-jurisdiction\"\n                    },\n                    \"onboardDate\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-onboardDate\"\n                    },\n                    \"_meta\": {\n                        \"type\": \"reference\",\n                        \"ldapAttribute\": \"fr-idm-managed-user-meta\",\n                        \"primaryKey\": \"uid\",\n                        \"resourcePath\": \"managed/teammembermeta\",\n                        \"isMultiValued\": false\n                    }\n                }\n            },\n            \"managed/teammembergroup\": {\n                \"dnTemplate\": \"ou=groups,o=root,ou=identities\",\n                \"objectClasses\": [\n                    \"groupofuniquenames\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"primaryKey\": true,\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"cn\"\n                    },\n                    \"members\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"uniqueMember\",\n                        \"isMultiValued\": true\n                    }\n                }\n            },\n            \"dsconfig/passwordPolicies\": {\n                \"dnTemplate\": \"cn=Password Policies,cn=config\",\n                \"objectClasses\": [\n                    \"ds-cfg-password-policy\",\n                    \"ds-cfg-authentication-policy\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"cn\",\n                        \"isRequired\": true,\n                        \"writability\": \"createOnly\"\n                    },\n                    \"passwordAttribute\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-password-attribute\",\n                        \"isRequired\": true\n                    },\n                    \"defaultPasswordStorageScheme\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-default-password-storage-scheme\",\n                        \"isMultiValued\": true,\n                        \"isRequired\": true\n                    },\n                    \"deprecatedPasswordStorageScheme\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-deprecated-password-storage-scheme\",\n                        \"isMultiValued\": true\n                    },\n                    \"validator\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-password-validator\",\n                        \"isMultiValued\": true\n                    },\n                    \"passwordHistoryCount\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-password-history-count\"\n                    },\n                    \"maxPasswordAge\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-max-password-age\"\n                    },\n                    \"allowPreEncodedPasswords\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-allow-pre-encoded-passwords\"\n                    }\n                }\n            },\n            \"dsconfig/lengthBased\": {\n                \"dnTemplate\": \"cn=Password Validators,cn=config\",\n                \"objectClasses\": [\n                    \"ds-cfg-password-validator\",\n                    \"ds-cfg-length-based-password-validator\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"cn\",\n                        \"isRequired\": true,\n                        \"writability\": \"createOnly\"\n                    },\n                    \"enabled\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-enabled\"\n                    },\n                    \"javaClass\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-java-class\"\n                    },\n                    \"minPasswordLength\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-min-password-length\"\n                    },\n                    \"maxPasswordLength\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-max-password-length\"\n                    }\n                }\n            },\n            \"dsconfig/attributeValue\": {\n                \"dnTemplate\": \"cn=Password Validators,cn=config\",\n                \"objectClasses\": [\n                    \"ds-cfg-password-validator\",\n                    \"ds-cfg-attribute-value-password-validator\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"cn\",\n                        \"isRequired\": true,\n                        \"writability\": \"createOnly\"\n                    },\n                    \"testReversedPassword\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-test-reversed-password\",\n                        \"isRequired\": true\n                    },\n                    \"enabled\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-enabled\"\n                    },\n                    \"javaClass\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-java-class\"\n                    },\n                    \"matchAttribute\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-match-attribute\",\n                        \"isMultiValued\": true\n                    },\n                    \"checkSubstrings\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-check-substrings\"\n                    },\n                    \"minSubstringLength\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-min-substring-length\"\n                    }\n                }\n            },\n            \"dsconfig/characterSet\": {\n                \"dnTemplate\": \"cn=Password Validators,cn=config\",\n                \"objectClasses\": [\n                    \"ds-cfg-password-validator\",\n                    \"ds-cfg-character-set-password-validator\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"cn\",\n                        \"isRequired\": true,\n                        \"writability\": \"createOnly\"\n                    },\n                    \"enabled\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-enabled\"\n                    },\n                    \"javaClass\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-java-class\"\n                    },\n                    \"allowUnclassifiedCharacters\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-allow-unclassified-characters\",\n                        \"isRequired\": true\n                    },\n                    \"minCharacterSets\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-min-character-sets\"\n                    },\n                    \"characterSet\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-character-set\",\n                        \"isMultiValued\": true\n                    }\n                }\n            },\n            \"dsconfig/dictionary\": {\n                \"dnTemplate\": \"cn=Password Validators,cn=config\",\n                \"objectClasses\": [\n                    \"ds-cfg-password-validator\",\n                    \"ds-cfg-dictionary-password-validator\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"cn\",\n                        \"isRequired\": true,\n                        \"writability\": \"createOnly\"\n                    },\n                    \"enabled\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-enabled\"\n                    },\n                    \"javaClass\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-java-class\"\n                    },\n                    \"dictionaryFile\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-dictionary-file\",\n                        \"isRequired\": true\n                    },\n                    \"caseSensitiveValidation\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-case-sensitive-validation\",\n                        \"isRequired\": true\n                    },\n                    \"testReversedPassword\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-test-reversed-password\",\n                        \"isRequired\": true\n                    },\n                    \"checkSubstrings\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-check-substrings\"\n                    },\n                    \"minSubstringLength\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-min-substring-length\"\n                    }\n                }\n            },\n            \"dsconfig/repeatedCharacters\": {\n                \"dnTemplate\": \"cn=Password Validators,cn=config\",\n                \"objectClasses\": [\n                    \"ds-cfg-password-validator\",\n                    \"ds-cfg-repeated-characters-password-validator\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"cn\",\n                        \"isRequired\": true,\n                        \"writability\": \"createOnly\"\n                    },\n                    \"enabled\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-enabled\"\n                    },\n                    \"javaClass\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-java-class\"\n                    },\n                    \"maxConsecutiveLength\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-max-consecutive-length\",\n                        \"isRequired\": true\n                    },\n                    \"caseSensitiveValidation\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-case-sensitive-validation\",\n                        \"isRequired\": true\n                    }\n                }\n            },\n            \"dsconfig/similarityBased\": {\n                \"dnTemplate\": \"cn=Password Validators,cn=config\",\n                \"objectClasses\": [\n                    \"ds-cfg-password-validator\",\n                    \"ds-cfg-similarity-based-password-validator\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"cn\",\n                        \"isRequired\": true,\n                        \"writability\": \"createOnly\"\n                    },\n                    \"enabled\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-enabled\"\n                    },\n                    \"javaClass\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-java-class\"\n                    },\n                    \"minPasswordDifference\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-min-password-difference\",\n                        \"isRequired\": true\n                    }\n                }\n            },\n            \"dsconfig/uniqueCharacters\": {\n                \"dnTemplate\": \"cn=Password Validators,cn=config\",\n                \"objectClasses\": [\n                    \"ds-cfg-password-validator\",\n                    \"ds-cfg-unique-characters-password-validator\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"cn\",\n                        \"isRequired\": true,\n                        \"writability\": \"createOnly\"\n                    },\n                    \"enabled\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-enabled\"\n                    },\n                    \"javaClass\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-java-class\"\n                    },\n                    \"minUniqueCharacters\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-min-unique-characters\",\n                        \"isRequired\": true\n                    },\n                    \"caseSensitiveValidation\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-case-sensitive-validation\",\n                        \"isRequired\": true\n                    }\n                }\n            },\n            \"dsconfig/userDefinedVirtualAttribute\": {\n                \"dnTemplate\": \"cn=Virtual Attributes,cn=config\",\n                \"objectClasses\": [\n                    \"ds-cfg-user-defined-virtual-attribute\",\n                    \"ds-cfg-virtual-attribute\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"cn\",\n                        \"isRequired\": true,\n                        \"writability\": \"createOnly\"\n                    },\n                    \"javaClass\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-java-class\",\n                        \"isRequired\": true\n                    },\n                    \"enabled\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-enabled\",\n                        \"isRequired\": true\n                    },\n                    \"attributeType\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-attribute-type\",\n                        \"isRequired\": true\n                    },\n                    \"baseDn\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-base-dn\",\n                        \"isMultiValued\": true\n                    },\n                    \"scope\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-scope\"\n                    },\n                    \"groupDn\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-group-dn\"\n                    },\n                    \"filter\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-filter\",\n                        \"isMultiValued\": true\n                    },\n                    \"conflictBehavior\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-conflict-behavior\"\n                    },\n                    \"value\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"ds-cfg-value\",\n                        \"isMultiValued\": true,\n                        \"isRequired\": true\n                    }\n                }\n            },\n            \"recon/assoc\": {\n                \"dnTemplate\": \"ou=assoc,ou=recon,dc=openidm,dc=example,dc=com\",\n                \"namingStrategy\": {\n                    \"dnAttribute\": \"fr-idm-reconassoc-reconid\",\n                    \"type\": \"clientDnNaming\"\n                },\n                \"objectClasses\": [\n                    \"fr-idm-reconassoc\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-reconassoc-reconid\",\n                        \"isRequired\": true\n                    },\n                    \"mapping\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-reconassoc-mapping\"\n                    },\n                    \"sourceResourceCollection\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-reconassoc-sourceresourcecollection\"\n                    },\n                    \"targetResourceCollection\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-reconassoc-targetresourcecollection\"\n                    },\n                    \"isAnalysis\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-reconassoc-isanalysis\"\n                    },\n                    \"finishTime\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-reconassoc-finishtime\"\n                    }\n                },\n                \"subResources\": {\n                    \"entry\": {\n                        \"type\": \"collection\",\n                        \"resource\": \"recon-assoc-entry\",\n                        \"namingStrategy\": {\n                            \"dnAttribute\": \"uid\",\n                            \"type\": \"clientDnNaming\"\n                        }\n                    }\n                }\n            },\n            \"recon/assoc/entry\": {\n                \"resourceName\": \"recon-assoc-entry\",\n                \"objectClasses\": [\n                    \"uidObject\",\n                    \"fr-idm-reconassocentry\"\n                ],\n                \"subResourceRouting\": [\n                    {\n                        \"template\": \"recon/assoc/{reconId}/entry\",\n                        \"prefix\": \"entry\"\n                    }\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"uid\",\n                        \"isRequired\": true\n                    },\n                    \"reconId\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-reconassocentry-reconid\"\n                    },\n                    \"linkQualifier\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-reconassocentry-linkqualifier\"\n                    },\n                    \"status\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-reconassocentry-status\"\n                    },\n                    \"situation\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-reconassocentry-situation\"\n                    },\n                    \"action\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-reconassocentry-action\"\n                    },\n                    \"phase\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-reconassocentry-phase\"\n                    },\n                    \"sourceObjectId\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-reconassocentry-sourceObjectId\"\n                    },\n                    \"targetObjectId\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-reconassocentry-targetObjectId\"\n                    },\n                    \"exception\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-reconassocentry-exception\"\n                    },\n                    \"message\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-reconassocentry-message\"\n                    },\n                    \"messageDetail\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-reconassocentry-messagedetail\"\n                    },\n                    \"ambiguousTargetObjectIds\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-reconassocentry-ambiguoustargetobjectids\"\n                    },\n                    \"mapping\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-reconassoc-mapping\"\n                    },\n                    \"sourceResourceCollection\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-reconassoc-sourceresourcecollection\"\n                    },\n                    \"targetResourceCollection\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-reconassoc-targetresourcecollection\"\n                    },\n                    \"isAnalysis\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-reconassoc-isanalysis\"\n                    }\n                }\n            }\n        },\n        \"genericMapping\": {\n            \"ui/*\": {\n                \"dnTemplate\": \"ou=ui,dc=openidm,dc=example,dc=com\"\n            },\n            \"config\": {\n                \"dnTemplate\": \"ou=config,dc=openidm,dc=example,dc=com\"\n            },\n            \"managed/*\": {\n                \"dnTemplate\": \"ou=managed,dc=openidm,dc=example,dc=com\"\n            },\n            \"managed/alpha_role\": {\n                \"dnTemplate\": \"ou=role,o=alpha,o=root,ou=identities\",\n                \"objectClasses\": [\n                    \"uidObject\",\n                    \"fr-idm-managed-role\"\n                ],\n                \"jsonAttribute\": \"fr-idm-managed-role-json\",\n                \"jsonQueryEqualityMatchingRule\": \"caseIgnoreJsonQueryMatchManagedRole\",\n                \"properties\": {\n                    \"members\": {\n                        \"type\": \"reverseReference\",\n                        \"resourcePath\": \"managed/alpha_user\",\n                        \"propertyName\": \"roles\",\n                        \"isMultiValued\": true\n                    }\n                }\n            },\n            \"managed/bravo_role\": {\n                \"dnTemplate\": \"ou=role,o=bravo,o=root,ou=identities\",\n                \"objectClasses\": [\n                    \"uidObject\",\n                    \"fr-idm-managed-role\"\n                ],\n                \"jsonAttribute\": \"fr-idm-managed-role-json\",\n                \"jsonQueryEqualityMatchingRule\": \"caseIgnoreJsonQueryMatchManagedRole\",\n                \"properties\": {\n                    \"members\": {\n                        \"type\": \"reverseReference\",\n                        \"resourcePath\": \"managed/bravo_user\",\n                        \"propertyName\": \"roles\",\n                        \"isMultiValued\": true\n                    }\n                }\n            },\n            \"managed/alpha_organization\": {\n                \"dnTemplate\": \"ou=organization,o=alpha,o=root,ou=identities\",\n                \"objectClasses\": [\n                    \"uidObject\",\n                    \"fr-idm-managed-organization\",\n                    \"fr-ext-attrs\"\n                ],\n                \"jsonAttribute\": \"fr-idm-managed-organization-json\",\n                \"jsonQueryEqualityMatchingRule\": \"caseIgnoreJsonQueryMatch\",\n                \"properties\": {\n                    \"_id\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"uid\"\n                    },\n                    \"name\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-managed-organization-name\"\n                    },\n                    \"parent\": {\n                        \"type\": \"reference\",\n                        \"ldapAttribute\": \"fr-idm-managed-organization-parent\",\n                        \"primaryKey\": \"uid\",\n                        \"resourcePath\": \"managed/alpha_organization\"\n                    },\n                    \"children\": {\n                        \"type\": \"reverseReference\",\n                        \"resourcePath\": \"managed/alpha_organization\",\n                        \"propertyName\": \"parent\",\n                        \"isMultiValued\": true\n                    },\n                    \"owners\": {\n                        \"type\": \"reverseReference\",\n                        \"resourcePath\": \"managed/alpha_user\",\n                        \"propertyName\": \"ownerOfOrg\",\n                        \"isMultiValued\": true\n                    },\n                    \"admins\": {\n                        \"type\": \"reverseReference\",\n                        \"resourcePath\": \"managed/alpha_user\",\n                        \"propertyName\": \"adminOfOrg\",\n                        \"isMultiValued\": true\n                    },\n                    \"members\": {\n                        \"type\": \"reverseReference\",\n                        \"resourcePath\": \"managed/alpha_user\",\n                        \"propertyName\": \"memberOfOrg\",\n                        \"isMultiValued\": true\n                    }\n                }\n            },\n            \"managed/bravo_organization\": {\n                \"dnTemplate\": \"ou=organization,o=bravo,o=root,ou=identities\",\n                \"objectClasses\": [\n                    \"uidObject\",\n                    \"fr-idm-managed-organization\",\n                    \"fr-ext-attrs\"\n                ],\n                \"jsonAttribute\": \"fr-idm-managed-organization-json\",\n                \"jsonQueryEqualityMatchingRule\": \"caseIgnoreJsonQueryMatch\",\n                \"properties\": {\n                    \"_id\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"uid\"\n                    },\n                    \"name\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-managed-organization-name\"\n                    },\n                    \"parent\": {\n                        \"type\": \"reference\",\n                        \"ldapAttribute\": \"fr-idm-managed-organization-parent\",\n                        \"primaryKey\": \"uid\",\n                        \"resourcePath\": \"managed/bravo_organization\"\n                    },\n                    \"children\": {\n                        \"type\": \"reverseReference\",\n                        \"resourcePath\": \"managed/bravo_organization\",\n                        \"propertyName\": \"parent\",\n                        \"isMultiValued\": true\n                    },\n                    \"owners\": {\n                        \"type\": \"reverseReference\",\n                        \"resourcePath\": \"managed/bravo_user\",\n                        \"propertyName\": \"ownerOfOrg\",\n                        \"isMultiValued\": true\n                    },\n                    \"admins\": {\n                        \"type\": \"reverseReference\",\n                        \"resourcePath\": \"managed/bravo_user\",\n                        \"propertyName\": \"adminOfOrg\",\n                        \"isMultiValued\": true\n                    },\n                    \"members\": {\n                        \"type\": \"reverseReference\",\n                        \"resourcePath\": \"managed/bravo_user\",\n                        \"propertyName\": \"memberOfOrg\",\n                        \"isMultiValued\": true\n                    }\n                }\n            },\n            \"scheduler\": {\n                \"dnTemplate\": \"ou=scheduler,dc=openidm,dc=example,dc=com\"\n            },\n            \"scheduler/*\": {\n                \"dnTemplate\": \"ou=scheduler,dc=openidm,dc=example,dc=com\"\n            },\n            \"cluster/*\": {\n                \"dnTemplate\": \"ou=cluster,dc=openidm,dc=example,dc=com\",\n                \"objectClasses\": [\n                    \"uidObject\",\n                    \"fr-idm-cluster-obj\"\n                ],\n                \"jsonAttribute\": \"fr-idm-cluster-json\",\n                \"jsonQueryEqualityMatchingRule\": \"caseIgnoreJsonQueryMatchClusterObject\"\n            },\n            \"relationships\": {\n                \"dnTemplate\": \"ou=relationships,dc=openidm,dc=example,dc=com\",\n                \"objectClasses\": [\n                    \"uidObject\",\n                    \"fr-idm-relationship\"\n                ],\n                \"jsonAttribute\": \"fr-idm-relationship-json\",\n                \"jsonQueryEqualityMatchingRule\": \"caseIgnoreJsonQueryMatchRelationship\"\n            },\n            \"updates\": {\n                \"dnTemplate\": \"ou=updates,dc=openidm,dc=example,dc=com\"\n            },\n            \"reconprogressstate\": {\n                \"dnTemplate\": \"ou=reconprogressstate,dc=openidm,dc=example,dc=com\"\n            },\n            \"jsonstorage\": {\n                \"dnTemplate\": \"ou=jsonstorage,dc=openidm,dc=example,dc=com\"\n            },\n            \"internal/usermeta\": {\n                \"dnTemplate\": \"ou=usermeta,ou=internal,dc=openidm,dc=example,dc=com\",\n                \"objectClasses\": [\n                    \"uidObject\",\n                    \"fr-idm-generic-obj\"\n                ],\n                \"jsonAttribute\": \"fr-idm-json\",\n                \"jsonQueryEqualityMatchingRule\": \"caseIgnoreJsonQueryMatch\",\n                \"properties\": {\n                    \"target\": {\n                        \"type\": \"reverseReference\",\n                        \"resourcePath\": \"managed/alpha_user\",\n                        \"propertyName\": \"_meta\"\n                    }\n                }\n            },\n            \"managed/teammembermeta\": {\n                \"dnTemplate\": \"ou=teammembermeta,o=root,ou=identities\",\n                \"objectClasses\": [\n                    \"uidObject\",\n                    \"fr-idm-generic-obj\"\n                ],\n                \"jsonAttribute\": \"fr-idm-json\",\n                \"jsonQueryEqualityMatchingRule\": \"caseIgnoreJsonQueryMatch\",\n                \"properties\": {\n                    \"target\": {\n                        \"type\": \"reverseReference\",\n                        \"resourcePath\": \"managed/teammember\",\n                        \"propertyName\": \"_meta\"\n                    }\n                }\n            },\n            \"managed/alpha_usermeta\": {\n                \"dnTemplate\": \"ou=usermeta,o=alpha,o=root,ou=identities\",\n                \"objectClasses\": [\n                    \"uidObject\",\n                    \"fr-idm-generic-obj\"\n                ],\n                \"jsonAttribute\": \"fr-idm-json\",\n                \"jsonQueryEqualityMatchingRule\": \"caseIgnoreJsonQueryMatch\",\n                \"properties\": {\n                    \"target\": {\n                        \"type\": \"reverseReference\",\n                        \"resourcePath\": \"managed/alpha_user\",\n                        \"propertyName\": \"_meta\"\n                    }\n                }\n            },\n            \"managed/bravo_usermeta\": {\n                \"dnTemplate\": \"ou=usermeta,o=bravo,o=root,ou=identities\",\n                \"objectClasses\": [\n                    \"uidObject\",\n                    \"fr-idm-generic-obj\"\n                ],\n                \"jsonAttribute\": \"fr-idm-json\",\n                \"jsonQueryEqualityMatchingRule\": \"caseIgnoreJsonQueryMatch\",\n                \"properties\": {\n                    \"target\": {\n                        \"type\": \"reverseReference\",\n                        \"resourcePath\": \"managed/bravo_user\",\n                        \"propertyName\": \"_meta\"\n                    }\n                }\n            },\n            \"internal/notification\": {\n                \"dnTemplate\": \"ou=notification,ou=internal,dc=openidm,dc=example,dc=com\",\n                \"objectClasses\": [\n                    \"uidObject\",\n                    \"fr-idm-notification\"\n                ],\n                \"jsonAttribute\": \"fr-idm-notification-json\",\n                \"jsonQueryEqualityMatchingRule\": \"caseIgnoreJsonQueryMatch\",\n                \"properties\": {\n                    \"target\": {\n                        \"type\": \"reverseReference\",\n                        \"resourcePath\": \"managed/alpha_user\",\n                        \"propertyName\": \"_notifications\"\n                    }\n                }\n            },\n            \"file\": {\n                \"dnTemplate\": \"ou=file,dc=openidm,dc=example,dc=com\"\n            },\n            \"managed/alpha_user\": {\n                \"dnTemplate\": \"ou=user,o=alpha,o=root,ou=identities\",\n                \"namingStrategy\": {\n                    \"type\": \"clientDnNaming\",\n                    \"dnAttribute\": \"fr-idm-uuid\"\n                },\n                \"nativeId\": false,\n                \"jsonAttribute\": \"fr-idm-custom-attrs\",\n                \"jsonQueryEqualityMatchingRule\": \"caseIgnoreJsonQueryMatch\",\n                \"objectClasses\": [\n                    \"person\",\n                    \"organizationalPerson\",\n                    \"inetOrgPerson\",\n                    \"iplanet-am-user-service\",\n                    \"devicePrintProfilesContainer\",\n                    \"deviceProfilesContainer\",\n                    \"kbaInfoContainer\",\n                    \"fr-idm-managed-user-explicit\",\n                    \"forgerock-am-dashboard-service\",\n                    \"inetuser\",\n                    \"iplanet-am-auth-configuration-service\",\n                    \"iplanet-am-managed-person\",\n                    \"iPlanetPreferences\",\n                    \"oathDeviceProfilesContainer\",\n                    \"pushDeviceProfilesContainer\",\n                    \"sunAMAuthAccountLockout\",\n                    \"sunFMSAML2NameIdentifier\",\n                    \"webauthnDeviceProfilesContainer\",\n                    \"fr-idm-hybrid-obj\",\n                    \"fr-ext-attrs\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"primaryKey\": true,\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-uuid\"\n                    },\n                    \"_rev\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"etag\"\n                    },\n                    \"userName\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"uid\"\n                    },\n                    \"cn\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"cn\"\n                    },\n                    \"password\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"userPassword\"\n                    },\n                    \"accountStatus\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"inetUserStatus\"\n                    },\n                    \"effectiveRoles\": {\n                        \"type\": \"json\",\n                        \"ldapAttribute\": \"fr-idm-effectiveRole\",\n                        \"isMultiValued\": true\n                    },\n                    \"effectiveAssignments\": {\n                        \"type\": \"json\",\n                        \"ldapAttribute\": \"fr-idm-effectiveAssignment\",\n                        \"isMultiValued\": true\n                    },\n                    \"postalCode\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"postalCode\"\n                    },\n                    \"stateProvince\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"st\"\n                    },\n                    \"postalAddress\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"street\"\n                    },\n                    \"displayName\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"displayName\"\n                    },\n                    \"description\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"description\"\n                    },\n                    \"country\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"co\"\n                    },\n                    \"city\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"l\"\n                    },\n                    \"givenName\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"givenName\"\n                    },\n                    \"profileImage\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"labeledURI\"\n                    },\n                    \"sn\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"sn\"\n                    },\n                    \"telephoneNumber\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"telephoneNumber\"\n                    },\n                    \"mail\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"mail\"\n                    },\n                    \"isMemberOf\": {\n                        \"isMultiValued\": true,\n                        \"ldapAttribute\": \"isMemberOf\",\n                        \"type\": \"simple\"\n                    },\n                    \"frIndexedString1\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-istr1\"\n                    },\n                    \"frIndexedString2\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-istr2\"\n                    },\n                    \"frIndexedString3\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-istr3\"\n                    },\n                    \"frIndexedString4\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-istr4\"\n                    },\n                    \"frIndexedString5\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-istr5\"\n                    },\n                    \"frUnindexedString1\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-str1\"\n                    },\n                    \"frUnindexedString2\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-str2\"\n                    },\n                    \"frUnindexedString3\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-str3\"\n                    },\n                    \"frUnindexedString4\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-str4\"\n                    },\n                    \"frUnindexedString5\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-str5\"\n                    },\n                    \"frIndexedMultivalued1\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-imulti1\",\n                        \"isMultiValued\": true\n                    },\n                    \"frIndexedMultivalued2\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-imulti2\",\n                        \"isMultiValued\": true\n                    },\n                    \"frIndexedMultivalued3\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-imulti3\",\n                        \"isMultiValued\": true\n                    },\n                    \"frIndexedMultivalued4\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-imulti4\",\n                        \"isMultiValued\": true\n                    },\n                    \"frIndexedMultivalued5\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-imulti5\",\n                        \"isMultiValued\": true\n                    },\n                    \"frUnindexedMultivalued1\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-multi1\",\n                        \"isMultiValued\": true\n                    },\n                    \"frUnindexedMultivalued2\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-multi2\",\n                        \"isMultiValued\": true\n                    },\n                    \"frUnindexedMultivalued3\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-multi3\",\n                        \"isMultiValued\": true\n                    },\n                    \"frUnindexedMultivalued4\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-multi4\",\n                        \"isMultiValued\": true\n                    },\n                    \"frUnindexedMultivalued5\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-multi5\",\n                        \"isMultiValued\": true\n                    },\n                    \"frIndexedDate1\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-idate1\"\n                    },\n                    \"frIndexedDate2\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-idate2\"\n                    },\n                    \"frIndexedDate3\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-idate3\"\n                    },\n                    \"frIndexedDate4\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-idate4\"\n                    },\n                    \"frIndexedDate5\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-idate5\"\n                    },\n                    \"frUnindexedDate1\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-date1\"\n                    },\n                    \"frUnindexedDate2\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-date2\"\n                    },\n                    \"frUnindexedDate3\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-date3\"\n                    },\n                    \"frUnindexedDate4\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-date4\"\n                    },\n                    \"frUnindexedDate5\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-date5\"\n                    },\n                    \"frIndexedInteger1\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-iint1\"\n                    },\n                    \"frIndexedInteger2\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-iint2\"\n                    },\n                    \"frIndexedInteger3\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-iint3\"\n                    },\n                    \"frIndexedInteger4\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-iint4\"\n                    },\n                    \"frIndexedInteger5\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-iint5\"\n                    },\n                    \"frUnindexedInteger1\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-int1\"\n                    },\n                    \"frUnindexedInteger2\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-int2\"\n                    },\n                    \"frUnindexedInteger3\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-int3\"\n                    },\n                    \"frUnindexedInteger4\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-int4\"\n                    },\n                    \"frUnindexedInteger5\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-int5\"\n                    },\n                    \"lastSync\": {\n                        \"type\": \"json\",\n                        \"ldapAttribute\": \"fr-idm-lastSync\"\n                    },\n                    \"consentedMappings\": {\n                        \"type\": \"json\",\n                        \"ldapAttribute\": \"fr-idm-consentedMapping\",\n                        \"isMultiValued\": true\n                    },\n                    \"kbaInfo\": {\n                        \"type\": \"json\",\n                        \"ldapAttribute\": \"fr-idm-kbaInfo\",\n                        \"isMultiValued\": true\n                    },\n                    \"preferences\": {\n                        \"type\": \"json\",\n                        \"ldapAttribute\": \"fr-idm-preferences\"\n                    },\n                    \"aliasList\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"iplanet-am-user-alias-list\",\n                        \"isMultiValued\": true\n                    },\n                    \"roles\": {\n                        \"type\": \"reference\",\n                        \"ldapAttribute\": \"fr-idm-managed-user-roles\",\n                        \"primaryKey\": \"uid\",\n                        \"resourcePath\": \"managed/alpha_role\",\n                        \"isMultiValued\": true\n                    },\n                    \"reports\": {\n                        \"type\": \"reverseReference\",\n                        \"resourcePath\": \"managed/alpha_user\",\n                        \"propertyName\": \"manager\",\n                        \"isMultiValued\": true\n                    },\n                    \"manager\": {\n                        \"type\": \"reference\",\n                        \"ldapAttribute\": \"fr-idm-managed-user-manager\",\n                        \"primaryKey\": \"uid\",\n                        \"resourcePath\": \"managed/alpha_user\",\n                        \"isMultiValued\": false\n                    },\n                    \"_meta\": {\n                        \"type\": \"reference\",\n                        \"ldapAttribute\": \"fr-idm-managed-user-meta\",\n                        \"primaryKey\": \"uid\",\n                        \"resourcePath\": \"managed/alpha_usermeta\",\n                        \"isMultiValued\": false\n                    },\n                    \"_notifications\": {\n                        \"type\": \"reference\",\n                        \"ldapAttribute\": \"fr-idm-managed-user-notifications\",\n                        \"primaryKey\": \"uid\",\n                        \"resourcePath\": \"internal/notification\",\n                        \"isMultiValued\": true\n                    },\n                    \"authzRoles\": {\n                        \"isMultiValued\": true,\n                        \"type\": \"reference\",\n                        \"ldapAttribute\": \"fr-idm-managed-user-authzroles-internal-role\",\n                        \"primaryKey\": \"cn\",\n                        \"resourcePath\": \"internal/role\"\n                    },\n                    \"ownerOfOrg\": {\n                        \"type\": \"reference\",\n                        \"ldapAttribute\": \"fr-idm-managed-organization-owner\",\n                        \"primaryKey\": \"uid\",\n                        \"resourcePath\": \"managed/alpha_organization\",\n                        \"isMultiValued\": true\n                    },\n                    \"adminOfOrg\": {\n                        \"type\": \"reference\",\n                        \"ldapAttribute\": \"fr-idm-managed-organization-admin\",\n                        \"primaryKey\": \"uid\",\n                        \"resourcePath\": \"managed/alpha_organization\",\n                        \"isMultiValued\": true\n                    },\n                    \"memberOfOrg\": {\n                        \"type\": \"reference\",\n                        \"ldapAttribute\": \"fr-idm-managed-organization-member\",\n                        \"primaryKey\": \"uid\",\n                        \"resourcePath\": \"managed/alpha_organization\",\n                        \"isMultiValued\": true\n                    },\n                    \"memberOfOrgIDs\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-managed-user-memberoforgid\",\n                        \"isMultiValued\": true\n                    }\n                }\n            },\n            \"managed/bravo_user\": {\n                \"dnTemplate\": \"ou=user,o=bravo,o=root,ou=identities\",\n                \"namingStrategy\": {\n                    \"type\": \"clientDnNaming\",\n                    \"dnAttribute\": \"fr-idm-uuid\"\n                },\n                \"nativeId\": false,\n                \"jsonAttribute\": \"fr-idm-custom-attrs\",\n                \"jsonQueryEqualityMatchingRule\": \"caseIgnoreJsonQueryMatch\",\n                \"objectClasses\": [\n                    \"person\",\n                    \"organizationalPerson\",\n                    \"inetOrgPerson\",\n                    \"iplanet-am-user-service\",\n                    \"devicePrintProfilesContainer\",\n                    \"deviceProfilesContainer\",\n                    \"kbaInfoContainer\",\n                    \"fr-idm-managed-user-explicit\",\n                    \"forgerock-am-dashboard-service\",\n                    \"inetuser\",\n                    \"iplanet-am-auth-configuration-service\",\n                    \"iplanet-am-managed-person\",\n                    \"iPlanetPreferences\",\n                    \"oathDeviceProfilesContainer\",\n                    \"pushDeviceProfilesContainer\",\n                    \"sunAMAuthAccountLockout\",\n                    \"sunFMSAML2NameIdentifier\",\n                    \"webauthnDeviceProfilesContainer\",\n                    \"fr-idm-hybrid-obj\",\n                    \"fr-ext-attrs\"\n                ],\n                \"properties\": {\n                    \"_id\": {\n                        \"primaryKey\": true,\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-uuid\"\n                    },\n                    \"_rev\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"etag\"\n                    },\n                    \"userName\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"uid\"\n                    },\n                    \"cn\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"cn\"\n                    },\n                    \"password\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"userPassword\"\n                    },\n                    \"accountStatus\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"inetUserStatus\"\n                    },\n                    \"effectiveRoles\": {\n                        \"type\": \"json\",\n                        \"ldapAttribute\": \"fr-idm-effectiveRole\",\n                        \"isMultiValued\": true\n                    },\n                    \"effectiveAssignments\": {\n                        \"type\": \"json\",\n                        \"ldapAttribute\": \"fr-idm-effectiveAssignment\",\n                        \"isMultiValued\": true\n                    },\n                    \"postalCode\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"postalCode\"\n                    },\n                    \"stateProvince\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"st\"\n                    },\n                    \"postalAddress\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"street\"\n                    },\n                    \"displayName\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"displayName\"\n                    },\n                    \"description\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"description\"\n                    },\n                    \"country\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"co\"\n                    },\n                    \"city\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"l\"\n                    },\n                    \"givenName\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"givenName\"\n                    },\n                    \"profileImage\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"labeledURI\"\n                    },\n                    \"sn\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"sn\"\n                    },\n                    \"telephoneNumber\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"telephoneNumber\"\n                    },\n                    \"mail\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"mail\"\n                    },\n                    \"frIndexedString1\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-istr1\"\n                    },\n                    \"frIndexedString2\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-istr2\"\n                    },\n                    \"frIndexedString3\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-istr3\"\n                    },\n                    \"frIndexedString4\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-istr4\"\n                    },\n                    \"frIndexedString5\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-istr5\"\n                    },\n                    \"frUnindexedString1\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-str1\"\n                    },\n                    \"frUnindexedString2\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-str2\"\n                    },\n                    \"frUnindexedString3\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-str3\"\n                    },\n                    \"frUnindexedString4\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-str4\"\n                    },\n                    \"frUnindexedString5\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-str5\"\n                    },\n                    \"frIndexedMultivalued1\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-imulti1\",\n                        \"isMultiValued\": true\n                    },\n                    \"frIndexedMultivalued2\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-imulti2\",\n                        \"isMultiValued\": true\n                    },\n                    \"frIndexedMultivalued3\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-imulti3\",\n                        \"isMultiValued\": true\n                    },\n                    \"frIndexedMultivalued4\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-imulti4\",\n                        \"isMultiValued\": true\n                    },\n                    \"frIndexedMultivalued5\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-imulti5\",\n                        \"isMultiValued\": true\n                    },\n                    \"frUnindexedMultivalued1\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-multi1\",\n                        \"isMultiValued\": true\n                    },\n                    \"frUnindexedMultivalued2\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-multi2\",\n                        \"isMultiValued\": true\n                    },\n                    \"frUnindexedMultivalued3\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-multi3\",\n                        \"isMultiValued\": true\n                    },\n                    \"frUnindexedMultivalued4\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-multi4\",\n                        \"isMultiValued\": true\n                    },\n                    \"frUnindexedMultivalued5\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-multi5\",\n                        \"isMultiValued\": true\n                    },\n                    \"frIndexedDate1\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-idate1\"\n                    },\n                    \"frIndexedDate2\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-idate2\"\n                    },\n                    \"frIndexedDate3\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-idate3\"\n                    },\n                    \"frIndexedDate4\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-idate4\"\n                    },\n                    \"frIndexedDate5\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-idate5\"\n                    },\n                    \"frUnindexedDate1\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-date1\"\n                    },\n                    \"frUnindexedDate2\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-date2\"\n                    },\n                    \"frUnindexedDate3\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-date3\"\n                    },\n                    \"frUnindexedDate4\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-date4\"\n                    },\n                    \"frUnindexedDate5\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-date5\"\n                    },\n                    \"frIndexedInteger1\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-iint1\"\n                    },\n                    \"frIndexedInteger2\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-iint2\"\n                    },\n                    \"frIndexedInteger3\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-iint3\"\n                    },\n                    \"frIndexedInteger4\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-iint4\"\n                    },\n                    \"frIndexedInteger5\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-iint5\"\n                    },\n                    \"frUnindexedInteger1\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-int1\"\n                    },\n                    \"frUnindexedInteger2\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-int2\"\n                    },\n                    \"frUnindexedInteger3\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-int3\"\n                    },\n                    \"frUnindexedInteger4\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-int4\"\n                    },\n                    \"frUnindexedInteger5\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-attr-int5\"\n                    },\n                    \"lastSync\": {\n                        \"type\": \"json\",\n                        \"ldapAttribute\": \"fr-idm-lastSync\"\n                    },\n                    \"consentedMappings\": {\n                        \"type\": \"json\",\n                        \"ldapAttribute\": \"fr-idm-consentedMapping\",\n                        \"isMultiValued\": true\n                    },\n                    \"kbaInfo\": {\n                        \"type\": \"json\",\n                        \"ldapAttribute\": \"fr-idm-kbaInfo\",\n                        \"isMultiValued\": true\n                    },\n                    \"preferences\": {\n                        \"type\": \"json\",\n                        \"ldapAttribute\": \"fr-idm-preferences\"\n                    },\n                    \"aliasList\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"iplanet-am-user-alias-list\",\n                        \"isMultiValued\": true\n                    },\n                    \"isMemberOf\": {\n                        \"isMultiValued\": true,\n                        \"ldapAttribute\": \"isMemberOf\",\n                        \"type\": \"simple\"\n                    },\n                    \"roles\": {\n                        \"type\": \"reference\",\n                        \"ldapAttribute\": \"fr-idm-managed-user-roles\",\n                        \"primaryKey\": \"uid\",\n                        \"resourcePath\": \"managed/bravo_role\",\n                        \"isMultiValued\": true\n                    },\n                    \"reports\": {\n                        \"type\": \"reverseReference\",\n                        \"resourcePath\": \"managed/bravo_user\",\n                        \"propertyName\": \"manager\",\n                        \"isMultiValued\": true\n                    },\n                    \"manager\": {\n                        \"type\": \"reference\",\n                        \"ldapAttribute\": \"fr-idm-managed-user-manager\",\n                        \"primaryKey\": \"uid\",\n                        \"resourcePath\": \"managed/bravo_user\",\n                        \"isMultiValued\": false\n                    },\n                    \"_meta\": {\n                        \"type\": \"reference\",\n                        \"ldapAttribute\": \"fr-idm-managed-user-meta\",\n                        \"primaryKey\": \"uid\",\n                        \"resourcePath\": \"managed/bravo_usermeta\",\n                        \"isMultiValued\": false\n                    },\n                    \"_notifications\": {\n                        \"type\": \"reference\",\n                        \"ldapAttribute\": \"fr-idm-managed-user-notifications\",\n                        \"primaryKey\": \"uid\",\n                        \"resourcePath\": \"internal/notification\",\n                        \"isMultiValued\": true\n                    },\n                    \"authzRoles\": {\n                        \"isMultiValued\": true,\n                        \"type\": \"reference\",\n                        \"ldapAttribute\": \"fr-idm-managed-user-authzroles-internal-role\",\n                        \"primaryKey\": \"cn\",\n                        \"resourcePath\": \"internal/role\"\n                    },\n                    \"ownerOfOrg\": {\n                        \"type\": \"reference\",\n                        \"ldapAttribute\": \"fr-idm-managed-organization-owner\",\n                        \"primaryKey\": \"uid\",\n                        \"resourcePath\": \"managed/bravo_organization\",\n                        \"isMultiValued\": true\n                    },\n                    \"adminOfOrg\": {\n                        \"type\": \"reference\",\n                        \"ldapAttribute\": \"fr-idm-managed-organization-admin\",\n                        \"primaryKey\": \"uid\",\n                        \"resourcePath\": \"managed/bravo_organization\",\n                        \"isMultiValued\": true\n                    },\n                    \"memberOfOrg\": {\n                        \"type\": \"reference\",\n                        \"ldapAttribute\": \"fr-idm-managed-organization-member\",\n                        \"primaryKey\": \"uid\",\n                        \"resourcePath\": \"managed/bravo_organization\",\n                        \"isMultiValued\": true\n                    },\n                    \"memberOfOrgIDs\": {\n                        \"type\": \"simple\",\n                        \"ldapAttribute\": \"fr-idm-managed-user-memberoforgid\",\n                        \"isMultiValued\": true\n                    }\n                }\n            }\n        }\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/openidm/config/repo.ds",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"openidm",
+												"config",
+												"repo.ds"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "/provisioner.openicf",
+							"item": []
+						},
+						{
 							"name": "List all configuration endpoints",
 							"request": {
 								"auth": {
@@ -12131,7 +12277,239 @@
 				},
 				{
 					"name": "/endpoint",
-					"item": []
+					"item": [
+						{
+							"name": "/otp",
+							"item": [
+								{
+									"name": "journey",
+									"item": [
+										{
+											"name": "OTPOnly 1 - Generate",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"var jsonData = JSON.parse(responseBody);",
+															"postman.setEnvironmentVariable(\"authId\", jsonData.authId);",
+															"postman.setEnvironmentVariable(\"otp\", jsonData.callbacks[0].output[0].value);",
+															"//postman.setEnvironmentVariable(\"OnboardingReCAPTCHA_stage1\", responseBody);"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept-API-Version",
+														"value": "resource=2.0, protocol=1.0",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "X-OpenAM-Username",
+														"value": "vscheuber@gmail.com",
+														"type": "text"
+													},
+													{
+														"key": "X-OpenAM-Password",
+														"value": "Password1!",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "formdata",
+													"formdata": []
+												},
+												"url": {
+													"raw": "{{host}}{{am-context}}/json{{realm}}/authenticate?authIndexType=service&authIndexValue=OTPEndpoint",
+													"host": [
+														"{{host}}{{am-context}}"
+													],
+													"path": [
+														"json{{realm}}",
+														"authenticate"
+													],
+													"query": [
+														{
+															"key": "authIndexType",
+															"value": "service"
+														},
+														{
+															"key": "authIndexValue",
+															"value": "OTPEndpoint"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "OTPOnly 2 - Validate",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"var jsonData = JSON.parse(responseBody);",
+															"postman.setEnvironmentVariable(\"authId\", jsonData.authId);",
+															"//postman.setEnvironmentVariable(\"otp\", jsonData.callbacks[0].output[0].value);",
+															"//postman.setEnvironmentVariable(\"OnboardingReCAPTCHA_stage1\", responseBody);"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept-API-Version",
+														"value": "resource=2.0, protocol=1.0",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "X-OpenAM-Username",
+														"value": "vscheuber@gmail.com",
+														"type": "text"
+													},
+													{
+														"key": "X-OpenAM-Password",
+														"value": "Password1!",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"authId\": \"{{authId}}\",\n    \"callbacks\": [\n        {\n            \"type\": \"TextOutputCallback\",\n            \"output\": [\n                {\n                    \"name\": \"message\",\n                    \"value\": \"308538\"\n                },\n                {\n                    \"name\": \"messageType\",\n                    \"value\": \"0\"\n                }\n            ],\n            \"_id\": 0\n        },\n        {\n            \"type\": \"PasswordCallback\",\n            \"output\": [\n                {\n                    \"name\": \"prompt\",\n                    \"value\": \"One Time Password\"\n                }\n            ],\n            \"input\": [\n                {\n                    \"name\": \"IDToken2\",\n                    \"value\": \"{{otp}}\"\n                }\n            ],\n            \"_id\": 1\n        }\n    ]\n}"
+												},
+												"url": {
+													"raw": "{{host}}{{am-context}}/json{{realm}}/authenticate?authIndexType=service&authIndexValue=OTPEndpoint",
+													"host": [
+														"{{host}}{{am-context}}"
+													],
+													"path": [
+														"json{{realm}}",
+														"authenticate"
+													],
+													"query": [
+														{
+															"key": "authIndexType",
+															"value": "service"
+														},
+														{
+															"key": "authIndexValue",
+															"value": "OTPEndpoint"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Generate OTP",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"postman.setEnvironmentVariable(\"otpSession\", jsonData.session);",
+													"postman.setEnvironmentVariable(\"otp\", jsonData.otp);",
+													"postman.setEnvironmentVariable(\"txId\", jsonData._id);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{openamAccessToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/openidm/endpoint/otp",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"openidm",
+												"endpoint",
+												"otp"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Validate OTP",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{openamAccessToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-forgerock-transactionid",
+												"value": "{{txId}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"session\": \"{{otpSession}}\",\n    \"otp\": \"{{otp}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/openidm/endpoint/otp",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"openidm",
+												"endpoint",
+												"otp"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
 				},
 				{
 					"name": "/info",
@@ -12267,6 +12645,91 @@
 											"key": "_prettyPrint",
 											"value": "true"
 										}
+									]
+								},
+								"description": "Initial Requirements for Password Reset"
+							},
+							"response": []
+						},
+						{
+							"name": "Ping",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// var jsonData = JSON.parse(responseBody);",
+											"// postman.setEnvironmentVariable(\"pwdResetToken\", jsonData.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{openamAccessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept-API-Version",
+										"value": "resource=1.0",
+										"type": "text"
+									},
+									{
+										"key": "X-OpenIDM-Username",
+										"type": "text",
+										"value": "openidm-admin",
+										"disabled": true
+									},
+									{
+										"key": "X-OpenIDM-Password",
+										"type": "text",
+										"value": "{{openidmPassword}}",
+										"disabled": true
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json",
+										"disabled": true
+									},
+									{
+										"key": "X-OpenIDM-OAuth-Login",
+										"type": "text",
+										"value": "true",
+										"disabled": true
+									},
+									{
+										"key": "X-OpenIDM-DataStoreToken",
+										"type": "text",
+										"value": "{{idmDataStoreToken}}",
+										"disabled": true
+									},
+									{
+										"key": "X-OpenIDM-RunAs",
+										"type": "text",
+										"value": "vscheuber",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{host}}/openidm/info/ping",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"openidm",
+										"info",
+										"ping"
 									]
 								},
 								"description": "Initial Requirements for Password Reset"
@@ -14266,6 +14729,58 @@
 												"openidm",
 												"managed",
 												"user"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Patch KBA for User by ID",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{openamAccessToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "X-OpenIDM-Username",
+												"value": "openidm-admin",
+												"type": "text",
+												"disabled": true
+											},
+											{
+												"key": "X-OpenIDM-Password",
+												"value": "{{openidmPassword}}",
+												"type": "text",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "[\n    {\n        \"operation\": \"replace\",\n        \"field\": \"/kbaInfo\",\n        \"value\": [\n        {\n            \"questionId\": \"1\",\n            \"answer\": {\n                \"$crypto\": {\n                    \"value\": {\n                        \"algorithm\": \"SHA-256\",\n                        \"data\": \"A7B1iWAK8IChOm2lVAG79RyTTI2t4LCul5LlyN+nFFQZtmcNzcooo53FoEEwWFxx\"\n                    },\n                    \"type\": \"salted-hash\"\n                }\n            }\n        }\n    ]\n    }\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/openidm/managed/alpha_user/bc32550a-afa2-4ae0-8e3c-04dc19297d3d",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"openidm",
+												"managed",
+												"alpha_user",
+												"bc32550a-afa2-4ae0-8e3c-04dc19297d3d"
 											]
 										}
 									},
@@ -16770,6 +17285,103 @@
 							"response": []
 						},
 						{
+							"name": "Create core connector configuration",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{openamAccessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-OpenIDM-Username",
+										"value": "openidm-admin",
+										"disabled": true
+									},
+									{
+										"key": "X-OpenIDM-Password",
+										"value": "{{openidmPassword}}",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"connectorRef\": {\n        \"connectorHostRef\": \"rcsdocker\",\n        \"displayName\": \"Scripted REST Connector\",\n        \"bundleVersion\": \"1.5.20.5\",\n        \"systemType\": \"provisioner.openicf\",\n        \"bundleName\": \"org.forgerock.openicf.connectors.scriptedrest-connector\",\n        \"connectorName\": \"org.forgerock.openicf.connectors.scriptedrest.ScriptedRESTConnector\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/openidm/system?_action=createCoreConfig",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"openidm",
+										"system"
+									],
+									"query": [
+										{
+											"key": "_action",
+											"value": "createCoreConfig"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create full connector configuration",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{openamAccessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"connectorRef\": {\n        \"connectorHostRef\": \"rcsdocker\",\n        \"displayName\": \"Scripted REST Connector\",\n        \"bundleVersion\": \"1.5.20.5\",\n        \"systemType\": \"provisioner.openicf\",\n        \"bundleName\": \"org.forgerock.openicf.connectors.scriptedrest-connector\",\n        \"connectorName\": \"org.forgerock.openicf.connectors.scriptedrest.ScriptedRESTConnector\"\n    },\n    \"configurationProperties\": {\n        \"_serviceAddress\": \"https://10.1.0.12:11080/openidm\",\n        \"serviceAddress\": \"https://openam-volker-dev.forgeblocks.com/openidm\",\n        \"proxyAddress\": null,\n        \"defaultAuthMethod\": \"OAUTH\",\n        \"defaultContentType\": \"application/json\",\n        \"defaultRequestHeaders\": [],\n        \"username\": null,\n        \"password\": null,\n        \"OAuthTokenEndpoint\": \"https://openam-volker-dev.forgeblocks.com/am/oauth2/alpha/access_token\",\n        \"OAuthClientId\": \"ce3cd8cb-686d-4267-aef0-eac374b85511\",\n        \"OAuthClientSecret\": \"325bd3d9-80d7-4b40-8d81-85c3742db5db\",\n        \"OAuthRefreshToken\": null,\n        \"OAuthScope\": null,\n        \"OAuthGrantType\": \"CLIENT_CREDENTIALS\",\n        \"scriptRoots\": [\n            \"/opt/openicf/scripts/mTLS_OAuth2_REST_AS\"\n        ],\n        \"scriptExtensions\": [\n            \"groovy\"\n        ],\n        \"sourceEncoding\": \"UTF-8\",\n        \"authenticateScriptFileName\": \"AuthenticateScript.groovy\",\n        \"createScriptFileName\": \"CreateScript.groovy\",\n        \"customizerScriptFileName\": \"CustomizerScript.groovy\",\n        \"deleteScriptFileName\": \"DeleteScript.groovy\",\n        \"resolveUsernameScriptFileName\": \"ResolveUsernameScript.groovy\",\n        \"schemaScriptFileName\": \"SchemaScript.groovy\",\n        \"scriptOnResourceScriptFileName\": \"ScriptOnResourceScript.groovy\",\n        \"searchScriptFileName\": \"SearchScript.groovy\",\n        \"syncScriptFileName\": \"SyncScript.groovy\",\n        \"testScriptFileName\": \"TestScript.groovy\",\n        \"updateScriptFileName\": \"UpdateScript.groovy\",\n        \"scriptBaseClass\": null,\n        \"recompileGroovySource\": false,\n        \"minimumRecompilationInterval\": 100,\n        \"debug\": true,\n        \"verbose\": true,\n        \"warningLevel\": 1,\n        \"tolerance\": 10,\n        \"disabledGlobalASTTransformations\": null,\n        \"targetDirectory\": null\n    },\n    \"poolConfigOption\": {\n        \"maxObjects\": 10,\n        \"maxIdle\": 10,\n        \"maxWait\": 150000,\n        \"minEvictableIdleTimeMillis\": 120000,\n        \"minIdle\": 1\n    },\n    \"resultsHandlerConfig\": {\n        \"enableNormalizingResultsHandler\": false,\n        \"enableFilteredResultsHandler\": false,\n        \"enableCaseInsensitiveFilter\": false,\n        \"enableAttributesToGetSearchResultsHandler\": true\n    },\n    \"operationTimeout\": {\n        \"CREATE\": -1,\n        \"UPDATE\": -1,\n        \"DELETE\": -1,\n        \"TEST\": -1,\n        \"SCRIPT_ON_CONNECTOR\": -1,\n        \"SCRIPT_ON_RESOURCE\": -1,\n        \"GET\": -1,\n        \"RESOLVEUSERNAME\": -1,\n        \"AUTHENTICATE\": -1,\n        \"SEARCH\": -1,\n        \"VALIDATE\": -1,\n        \"SYNC\": -1,\n        \"SCHEMA\": -1\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/openidm/system?_action=createFullConfig",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"openidm",
+										"system"
+									],
+									"query": [
+										{
+											"key": "_action",
+											"value": "createFullConfig"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Create Remote Connector Server Configuration",
 							"request": {
 								"auth": {
@@ -19065,6 +19677,509 @@
 							"response": []
 						}
 					]
+				}
+			]
+		},
+		{
+			"name": "/dashboard",
+			"item": [
+				{
+					"name": "/users",
+					"item": [
+						{
+							"name": "/metrics",
+							"item": [
+								{
+									"name": "userTotal",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{openamAccessToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/dashboard/users/metrics?eventType=userTotal&realm=alpha&startDateTime=2022-02-27T10:45:54&intervalType=daily&endDateTime=2022-03-29T10:45:54",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"dashboard",
+												"users",
+												"metrics"
+											],
+											"query": [
+												{
+													"key": "eventType",
+													"value": "userTotal"
+												},
+												{
+													"key": "realm",
+													"value": "alpha"
+												},
+												{
+													"key": "startDateTime",
+													"value": "2022-02-27T10:45:54"
+												},
+												{
+													"key": "intervalType",
+													"value": "daily"
+												},
+												{
+													"key": "endDateTime",
+													"value": "2022-03-29T10:45:54"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "userActive",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{openamAccessToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/dashboard/users/metrics?eventType=userActive&realm=alpha&startDateTime=2022-02-27T10:45:54&intervalType=daily&endDateTime=2022-03-29T10:45:54",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"dashboard",
+												"users",
+												"metrics"
+											],
+											"query": [
+												{
+													"key": "eventType",
+													"value": "userActive"
+												},
+												{
+													"key": "realm",
+													"value": "alpha"
+												},
+												{
+													"key": "startDateTime",
+													"value": "2022-02-27T10:45:54"
+												},
+												{
+													"key": "intervalType",
+													"value": "daily"
+												},
+												{
+													"key": "endDateTime",
+													"value": "2022-03-29T10:45:54"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "userRegistration",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{openamAccessToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/dashboard/users/metrics?eventType=userRegistration&realm=alpha&startDateTime=2022-02-27T10:45:54&intervalType=daily&endDateTime=2022-03-29T10:45:54",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"dashboard",
+												"users",
+												"metrics"
+											],
+											"query": [
+												{
+													"key": "eventType",
+													"value": "userRegistration"
+												},
+												{
+													"key": "realm",
+													"value": "alpha"
+												},
+												{
+													"key": "startDateTime",
+													"value": "2022-02-27T10:45:54"
+												},
+												{
+													"key": "intervalType",
+													"value": "daily"
+												},
+												{
+													"key": "endDateTime",
+													"value": "2022-03-29T10:45:54"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Solutions",
+			"item": [
+				{
+					"name": "Secure REST",
+					"item": [
+						{
+							"name": "connector",
+							"item": [
+								{
+									"name": "Test Connectivity",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{openamAccessToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-OpenIDM-Username",
+												"value": "openidm-admin"
+											},
+											{
+												"key": "X-OpenIDM-Password",
+												"value": "{{openidmPassword}}"
+											}
+										],
+										"url": {
+											"raw": "{{host}}/openidm/system/SecureREST?_action=test",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"openidm",
+												"system",
+												"SecureREST"
+											],
+											"query": [
+												{
+													"key": "_action",
+													"value": "test"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Mirror Endpoint",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{openamAccessToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"method\": \"POST\",\n    \"contentType\": \"application/json\",\n    \"path\": \"/mirror\",\n    \"query\": {\n        \"vendor\": \"forgerock\"\n    },\n    \"fragment\": null,\n    \"body\": {\n        \"input\": {\n            \"nested\": \"value\"\n        }\n    },\n    \"headers\": {\n        \"INTERACTION-ID\": \"TEST\",\n        \"IAPPLICATION-ID\": \"Aggents-App\",\n        \"clientID\": \"2Bto4FW1qT2ikoSnCg5R\"\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/openidm/system/SecureREST?_action=script&scriptId=_&scriptExecuteMode=resource",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"openidm",
+												"system",
+												"SecureREST"
+											],
+											"query": [
+												{
+													"key": "_action",
+													"value": "script"
+												},
+												{
+													"key": "scriptId",
+													"value": "_"
+												},
+												{
+													"key": "scriptExecuteMode",
+													"value": "resource"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Mockserver Pets Endpoint",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{openamAccessToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"method\": \"GET\",\n    \"contentType\": \"application/json\",\n    \"path\": \"/pets\",\n    \"query\": null,\n    \"fragment\": null,\n    \"body\": null,\n    \"headers\": {}\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/openidm/system/SecureREST?_action=script&scriptId=_&scriptExecuteMode=resource",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"openidm",
+												"system",
+												"SecureREST"
+											],
+											"query": [
+												{
+													"key": "_action",
+													"value": "script"
+												},
+												{
+													"key": "scriptId",
+													"value": "_"
+												},
+												{
+													"key": "scriptExecuteMode",
+													"value": "resource"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "config",
+							"item": [
+								{
+									"name": "Create core connector configuration",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{openamAccessToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-OpenIDM-Username",
+												"value": "openidm-admin",
+												"disabled": true
+											},
+											{
+												"key": "X-OpenIDM-Password",
+												"value": "{{openidmPassword}}",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"connectorRef\": {\n        \"connectorHostRef\": \"rcsdocker\",\n        \"displayName\": \"Scripted REST Connector\",\n        \"bundleVersion\": \"1.5.20.5\",\n        \"systemType\": \"provisioner.openicf\",\n        \"bundleName\": \"org.forgerock.openicf.connectors.scriptedrest-connector\",\n        \"connectorName\": \"org.forgerock.openicf.connectors.scriptedrest.ScriptedRESTConnector\"\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/openidm/system?_action=createCoreConfig",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"openidm",
+												"system"
+											],
+											"query": [
+												{
+													"key": "_action",
+													"value": "createCoreConfig"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate full connector configuration",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{openamAccessToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"connectorRef\": {\n        \"connectorHostRef\": \"rcsdocker\",\n        \"displayName\": \"Scripted REST Connector\",\n        \"bundleVersion\": \"1.5.20.5\",\n        \"systemType\": \"provisioner.openicf\",\n        \"bundleName\": \"org.forgerock.openicf.connectors.scriptedrest-connector\",\n        \"connectorName\": \"org.forgerock.openicf.connectors.scriptedrest.ScriptedRESTConnector\"\n    },\n    \"configurationProperties\": {\n        \"serviceAddress\": \"https://apiroext-dev.allstate.com/allstate/5319/dev/iamsvc/api/v1/test/successResponse\",\n        \"proxyAddress\": null,\n        \"defaultAuthMethod\": \"OAUTH\",\n        \"defaultContentType\": \"application/json\",\n        \"defaultRequestHeaders\": [\n            \"clientID=2Bto4FW1qT2ikoSnCg5R\",\n            \"INTERACTION-ID=TEST\",\n            \"APPLICATION-ID=Aggents-App\"\n        ],\n        \"username\": null,\n        \"password\": null,\n        \"OAuthTokenEndpoint\": \"https://apiroext-dev.allstate.com/mtls/isam\",\n        \"OAuthClientId\": \"2Bto4FW1qT2ikoSnCg5R\",\n        \"OAuthClientSecret\": \"2MS6Zs5LlmMCPNqRydsl\",\n        \"OAuthRefreshToken\": null,\n        \"OAuthScope\": null,\n        \"OAuthGrantType\": \"CLIENT_CREDENTIALS\",\n        \"scriptRoots\": [\n            \"/opt/openicf/scripts/mTLS_OAuth2_REST2\"\n        ],\n        \"scriptExtensions\": [\n            \"groovy\"\n        ],\n        \"sourceEncoding\": \"UTF-8\",\n        \"authenticateScriptFileName\": \"AuthenticateScript.groovy\",\n        \"createScriptFileName\": \"CreateScript.groovy\",\n        \"customizerScriptFileName\": \"CustomizerScript.groovy\",\n        \"deleteScriptFileName\": \"DeleteScript.groovy\",\n        \"resolveUsernameScriptFileName\": \"ResolveUsernameScript.groovy\",\n        \"schemaScriptFileName\": \"SchemaScript.groovy\",\n        \"scriptOnResourceScriptFileName\": \"ScriptOnResourceScript.groovy\",\n        \"searchScriptFileName\": \"SearchScript.groovy\",\n        \"syncScriptFileName\": \"SyncScript.groovy\",\n        \"testScriptFileName\": \"TestScript.groovy\",\n        \"updateScriptFileName\": \"UpdateScript.groovy\",\n        \"scriptBaseClass\": null,\n        \"recompileGroovySource\": false,\n        \"minimumRecompilationInterval\": -1,\n        \"debug\": true,\n        \"verbose\": true,\n        \"warningLevel\": 1,\n        \"tolerance\": 10,\n        \"disabledGlobalASTTransformations\": null,\n        \"_targetDirectory\": \"/opt/openicf/classes/mTLS_OAuth2_REST2\",\n        \"targetDirectory\": null\n    },\n    \"poolConfigOption\": {\n        \"maxObjects\": 10,\n        \"maxIdle\": 10,\n        \"maxWait\": 150000,\n        \"minEvictableIdleTimeMillis\": 120000,\n        \"minIdle\": 1\n    },\n    \"resultsHandlerConfig\": {\n        \"enableNormalizingResultsHandler\": false,\n        \"enableFilteredResultsHandler\": false,\n        \"enableCaseInsensitiveFilter\": false,\n        \"enableAttributesToGetSearchResultsHandler\": true\n    },\n    \"operationTimeout\": {\n        \"CREATE\": -1,\n        \"UPDATE\": -1,\n        \"DELETE\": -1,\n        \"TEST\": -1,\n        \"SCRIPT_ON_CONNECTOR\": -1,\n        \"SCRIPT_ON_RESOURCE\": -1,\n        \"GET\": -1,\n        \"RESOLVEUSERNAME\": -1,\n        \"AUTHENTICATE\": -1,\n        \"SEARCH\": -1,\n        \"VALIDATE\": -1,\n        \"SYNC\": -1,\n        \"SCHEMA\": -1\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/openidm/system?_action=createFullConfig",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"openidm",
+												"system"
+											],
+											"query": [
+												{
+													"key": "_action",
+													"value": "createFullConfig"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create connector",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{openamAccessToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"connectorRef\": {\n        \"connectorHostRef\": \"rcsdocker\",\n        \"bundleVersion\": \"1.5.20.5\",\n        \"bundleName\": \"org.forgerock.openicf.connectors.scriptedrest-connector\",\n        \"connectorName\": \"org.forgerock.openicf.connectors.scriptedrest.ScriptedRESTConnector\"\n    },\n    \"poolConfigOption\": {\n        \"maxObjects\": 10,\n        \"maxIdle\": 10,\n        \"maxWait\": 150000,\n        \"minEvictableIdleTimeMillis\": 120000,\n        \"minIdle\": 1\n    },\n    \"resultsHandlerConfig\": {\n        \"enableNormalizingResultsHandler\": false,\n        \"enableFilteredResultsHandler\": false,\n        \"enableCaseInsensitiveFilter\": false,\n        \"enableAttributesToGetSearchResultsHandler\": true\n    },\n    \"operationTimeout\": {\n        \"CREATE\": -1,\n        \"UPDATE\": -1,\n        \"DELETE\": -1,\n        \"TEST\": -1,\n        \"SCRIPT_ON_CONNECTOR\": -1,\n        \"SCRIPT_ON_RESOURCE\": -1,\n        \"GET\": -1,\n        \"RESOLVEUSERNAME\": -1,\n        \"AUTHENTICATE\": -1,\n        \"SEARCH\": -1,\n        \"VALIDATE\": -1,\n        \"SYNC\": -1,\n        \"SCHEMA\": -1\n    },\n    \"configurationProperties\": {\n        \"serviceAddress\": \"https://mockserver.mytestrun.com:11080/pets\",\n        \"OAuthTokenEndpoint\": \"{{host}}{{am-context}}/oauth2{{realm}}/access_token\",\n        \"OAuthClientId\": \"ce3cd8cb-686d-4267-aef0-eac374b85511\",\n        \"OAuthClientSecret\": \"325bd3d9-80d7-4b40-8d81-85c3742db5db\",\n        \"defaultRequestHeaders\": [\n            \"TestHeader1=TestValue1\"\n        ],\n        \"scriptRoots\": [\n            \"/opt/openicf/scripts/SecureREST\"\n        ],\n        \"scriptExtensions\": [\n            \"groovy\"\n        ],\n        \"authenticateScriptFileName\": \"AuthenticateScript.groovy\",\n        \"createScriptFileName\": \"CreateScript.groovy\",\n        \"customizerScriptFileName\": \"CustomizerScript.groovy\",\n        \"resolveUsernameScriptFileName\": \"ResolveUsernameScript.groovy\",\n        \"scriptOnResourceScriptFileName\": \"ScriptOnResourceScript.groovy\",\n        \"searchScriptFileName\": \"SearchScript.groovy\",\n        \"deleteScriptFileName\": \"DeleteScript.groovy\",\n        \"updateScriptFileName\": \"UpdateScript.groovy\",\n        \"schemaScriptFileName\": \"SchemaScript.groovy\",\n        \"testScriptFileName\": \"TestScript.groovy\",\n        \"syncScriptFileName\": \"SyncScript.groovy\",\n        \"minimumRecompilationInterval\": -1,\n        \"recompileGroovySource\": false,\n        \"warningLevel\": 1,\n        \"tolerance\": 10,\n        \"verbose\": true,\n        \"debug\": true,\n        \"sourceEncoding\": \"UTF-8\",\n        \"defaultAuthMethod\": \"OAUTH\",\n        \"defaultContentType\": \"application/json\",\n        \"OAuthRefreshToken\": null,\n        \"OAuthScope\": null,\n        \"OAuthGrantType\": \"CLIENT_CREDENTIALS\",\n        \"customSensitiveConfiguration\": null,\n        \"targetDirectory\": null,\n        \"scriptBaseClass\": null,\n        \"customConfiguration\": null,\n        \"classpath\": [],\n        \"disabledGlobalASTTransformations\": [\n            null\n        ],\n        \"username\": null,\n        \"password\": null,\n        \"proxyAddress\": null,\n        \"proxyUsername\": null,\n        \"proxyPassword\": null\n    },\n    \"objectTypes\": {},\n    \"systemActions\": [\n        {\n            \"scriptId\": \"_\",\n            \"actions\": [\n                {\n                    \"systemType\": \".*ScriptedRESTConnector\",\n                    \"actionType\": \"groovy\",\n                    \"actionSource\": \"return {}\"\n                }\n            ]\n        }\n    ],\n    \"operationOptions\": {}\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/openidm/config/provisioner.openicf/SecureREST",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"openidm",
+												"config",
+												"provisioner.openicf",
+												"SecureREST"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete connector",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{openamAccessToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/openidm/config/provisioner.openicf/SecureREST",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"openidm",
+												"config",
+												"provisioner.openicf",
+												"SecureREST"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					],
+					"description": "Make secure REST calls to mTLS services outside or inside your firewall. Supports OAuth2 protected APIs."
 				}
 			]
 		}

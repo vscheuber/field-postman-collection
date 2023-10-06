@@ -35,57 +35,44 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"var privateKey = JSON.parse(pm.environment.get(\"serviceAccountPrivateKey\"));",
-									"var serviceAccountId = pm.environment.get(\"serviceAccountId\");",
-									"var aud = pm.environment.get(\"host\") + \":\" + pm.environment.get(\"port\") + pm.environment.get(\"am-context\") + \"/oauth2/access_token\";",
-									"var uuid = require('uuid');",
-									"var jti = uuid.v4();",
+									"// load pmlib",
+									"if (pm.globals.get('pmlib_code')) {",
+									"    console.log(\"loading pmlib\");",
+									"    eval( pm.globals.get('pmlib_code') );",
+									"    createAndSignJwt();",
+									"}",
+									"// install and load pmlib",
+									"else {",
+									"    console.log(\"installing and loading pmlib\");",
+									"    pm.sendRequest(\"https://joolfe.github.io/postman-util-lib/dist/bundle.js\", (err, res) => {",
+									"        pm.globals.set(\"pmlib_code\", res.text());",
+									"        eval( res.text() );",
+									"        createAndSignJwt();",
+									"    });",
+									"}",
 									"",
-									"var navigator = { \"appName\": \"postman\" };",
-									"var window = {};",
+									"function createAndSignJwt() {",
+									"    // create header and payload",
+									"    var jwk = JSON.parse(pm.environment.get(\"serviceAccountPrivateKey\"));",
+									"    var serviceAccountId = pm.environment.get(\"serviceAccountId\");",
+									"    var aud = pm.environment.get(\"host\") + \":\" + pm.environment.get(\"port\") + pm.environment.get(\"am-context\") + \"/oauth2/access_token\";",
 									"",
-									"pm.sendRequest(\"http://kjur.github.io/jsrsasign/jsrsasign-latest-all-min.js\", (err, res) => {",
-									"   //convert the response to text and save it as an environment variable",
-									"   pm.collectionVariables.set(\"kjur\", res.text());",
-									" ",
-									"   // eval will evaluate the JavaScript code and initialize the min.js",
-									"   eval(pm.collectionVariables.get(\"kjur\"));",
-									"",
-									"    var timestamp = new Date(); // The current time in milliseconds",
-									"    var issuedAtTimeSeconds = timestamp/1000;",
-									"    var expirationTimeSeconds = timestamp/1000 + 3600;",
-									" ",
-									"    // Create header and payload objects",
 									"    var header = {",
-									"    \"typ\": \"JWT\",",
-									"    \"alg\": \"RS256\"",
+									"        \"typ\": \"JWT\",",
+									"        \"alg\": \"RS256\"",
 									"    };",
-									" ",
+									"",
 									"    var payload = {",
-									"    \"iss\": serviceAccountId,",
-									"    \"sub\": serviceAccountId,",
-									"    \"iat\" : Math.ceil(issuedAtTimeSeconds),",
-									"    \"exp\" : Math.ceil(expirationTimeSeconds),",
-									"    \"aud\": aud,",
-									"    \"jti\": jti",
+									"        \"iss\": serviceAccountId,",
+									"        \"sub\": serviceAccountId,",
+									"        \"aud\": aud,",
 									"    };",
-									" ",
-									"    // Prep the objects for a JWT",
-									"    var sHeader = JSON.stringify(header);",
-									"    var sPayload = JSON.stringify(payload);",
-									"    var prvKey = KEYUTIL.getKey(privateKey);",
 									"",
-									"    var sJWT = KJUR.jws.JWS.sign(header.alg, sHeader, sPayload, prvKey);",
-									"    pm.environment.set(\"assertionJws\", sJWT);",
+									"    // create and sign JWT",
+									"    var jwt = pmlib.jwtSign(jwk, payload, header, exp = 600, alg = \"RS256\");",
 									"",
-									"    console.log(\"Assertion: \" + sJWT);",
-									"",
-									"})",
-									"",
-									"",
-									"",
-									"",
-									""
+									"    postman.setEnvironmentVariable(\"serviceAccountAssertion\", jwt);",
+									"}"
 								],
 								"type": "text/javascript"
 							}
@@ -117,7 +104,7 @@
 								},
 								{
 									"key": "assertion",
-									"value": "{{assertionJws}}",
+									"value": "{{serviceAccountAssertion}}",
 									"type": "text"
 								}
 							]
@@ -4748,32 +4735,72 @@
 							"response": []
 						},
 						{
-							"name": "/access_token (JWT bearer RFC7523)",
+							"name": "/access_token (RFC7523, jwt bearer, client auth)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"openamAccessToken\", jsonData.access_token);",
+											"postman.setEnvironmentVariable(\"openamRefreshToken\", jsonData.refresh_token);",
+											"postman.setEnvironmentVariable(\"openamIdToken\", jsonData.id_token);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// load pmlib",
+											"if (pm.globals.get('pmlib_code')) {",
+											"    console.log(\"loading pmlib\");",
+											"    eval( pm.globals.get('pmlib_code') );",
+											"    createAndSignJwt();",
+											"}",
+											"// install and load pmlib",
+											"else {",
+											"    console.log(\"installing and loading pmlib\");",
+											"    pm.sendRequest(\"https://joolfe.github.io/postman-util-lib/dist/bundle.js\", (err, res) => {",
+											"        pm.globals.set(\"pmlib_code\", res.text());",
+											"        eval( res.text() );",
+											"        createAndSignJwt();",
+											"    });",
+											"}",
+											"",
+											"function createAndSignJwt() {",
+											"    // create header and payload",
+											"    var jwk = JSON.parse(pm.environment.get(\"jwtClientAuthJWK\"));",
+											"    var clientId = pm.environment.get(\"jwtClientAuthClientId\");",
+											"    var sub = clientId;",
+											"    var iss = clientId;",
+											"    var aud = pm.environment.get(\"host\") + \":\" + pm.environment.get(\"port\") + pm.environment.get(\"am-context\") + \"/oauth2\" + pm.environment.get(\"realm\") + \"/access_token\";",
+											"",
+											"    var header = {",
+											"        \"typ\": \"JWT\",",
+											"        \"alg\": \"RS256\"",
+											"    };",
+											"",
+											"    var payload = {",
+											"        iss,",
+											"        sub,",
+											"        aud,",
+											"    };",
+											"",
+											"    // create and sign JWT",
+											"    var jwt = pmlib.jwtSign(jwk, payload, header, exp = 60 * 5, alg = \"RS256\");",
+											"",
+											"    postman.setEnvironmentVariable(\"jwtClientAuthClientAassertion\", jwt);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"auth": {
-									"type": "basic",
-									"basic": [
-										{
-											"key": "password",
-											"value": "{{client_secret}}",
-											"type": "string"
-										},
-										{
-											"key": "username",
-											"value": "{{client_id}}",
-											"type": "string"
-										},
-										{
-											"key": "saveHelperData",
-											"value": true,
-											"type": "boolean"
-										},
-										{
-											"key": "showPassword",
-											"value": false,
-											"type": "boolean"
-										}
-									]
+									"type": "noauth"
 								},
 								"method": "POST",
 								"header": [],
@@ -4782,22 +4809,22 @@
 									"urlencoded": [
 										{
 											"key": "grant_type",
-											"value": "urn:ietf:params:oauth:grant-type:jwt-bearer",
-											"type": "text"
-										},
-										{
-											"key": "assertion",
-											"value": "eyJ0eXAiOiJKV1QiLCJraWQiOiJmS2VIUkpTbW5PZWVkbHc3d0JjU0JDRmpDM0k9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIwMzE3MmQ4My0yY2U2LTRjOTYtYjdlYi1mNjI1MjQxYWIyZTciLCJjdHMiOiJPQVVUSDJfR1JBTlRfU0VUIiwiYXV0aF9sZXZlbCI6MCwiYXVkaXRUcmFja2luZ0lkIjoiNzUzY2Y5MzUtMzllMS00MjhhLTk3ZDgtMWE5ODE5YzVhM2Y3LTQzMzgiLCJpc3MiOiJodHRwczovL29wZW5hbS12c2MuZm9yZ2VibG9ja3MuY29tOjQ0My9hbS9vYXV0aDIvYWxwaGEiLCJ0b2tlbk5hbWUiOiJhY2Nlc3NfdG9rZW4iLCJ0b2tlbl90eXBlIjoiQmVhcmVyIiwiYXV0aEdyYW50SWQiOiJQQU9PUTNteEprT0hxcHdRdTZBRkljNTNaVWMuTEhkbFhzRi1WeDJneDlUaW9iTnIybzhCMWZrIiwiYXVkIjpbInBvc3RtYW4iLCJodHRwczovL2lkcDM3Lm15dGVzdHJ1bi5jb206NDQzL29wZW5hbS9vYXV0aDIvYWNjZXNzX3Rva2VuIl0sIm5iZiI6MTYxNDYzNzYwOCwiZ3JhbnRfdHlwZSI6ImF1dGhvcml6YXRpb25fY29kZSIsInNjb3BlIjpbIm9ucHJlbSIsIm9wZW5pZCIsInByb2ZpbGUiLCJlbWFpbCJdLCJhdXRoX3RpbWUiOjE2MTQ2Mzc1ODEsInJlYWxtIjoiL2FscGhhIiwiZXhwIjoxNjE0NjQxMjA4LCJpYXQiOjE2MTQ2Mzc2MDgsImV4cGlyZXNfaW4iOjM2MDAsImp0aSI6IlBBT09RM214SmtPSHFwd1F1NkFGSWM1M1pVYy5nVHh6amdpUWFhSVhvSmVXQ1lHQ21TWW1nUHMiLCJ1aWQiOiJ2c2NoZXViZXJAZ21haWwuY29tIn0.Djz04xETygU7zmx3APKDFnJlSzyJc6XZm4RzrdqA_FT2sjbCWUVEcaX5-XO6r8x1FDGPh49V95rCyFYzUkUSKJ77u_SjcL8fBrEB7dnC0CRFltCNdoVfiJQi-P0Y4eXInP-gY4cU6ZG_z_au7_Px0-Y8syhj6n--xotjSN2cMUVd7mR-l-BWFpLKstqze8rH_lZmLod9xdWbJjTdIZd_iNoDcKqvlInGYGDMUNDKOdCp9IAxuX10wPdcV8InHxVdYZcqlYjyUlY1hPD8zELTsSyWpA_-qa1KMyuOVBDDWqYESEPi4v_9_r3LPZqWhHZCVWKtrTXs09pTOaALJMHj6Q",
-											"type": "text"
-										},
-										{
-											"key": "redirect_uri",
-											"value": "{{host}}",
+											"value": "client_credentials",
 											"type": "text"
 										},
 										{
 											"key": "scope",
-											"value": "profile",
+											"value": "product1 product3",
+											"type": "text"
+										},
+										{
+											"key": "client_assertion_type",
+											"value": "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+											"type": "text"
+										},
+										{
+											"key": "client_assertion",
+											"value": "{{jwtClientAuthClientAassertion}}",
 											"type": "text"
 										}
 									]
@@ -4810,6 +4837,210 @@
 									"path": [
 										"oauth2{{realm}}",
 										"access_token"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/access_token (RFC7523, jwt bearer, authz grant)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// load pmlib",
+											"if (pm.globals.get('pmlib_code')) {",
+											"    console.log(\"loading pmlib\");",
+											"    eval( pm.globals.get('pmlib_code') );",
+											"    createAndSignJwt();",
+											"}",
+											"// install and load pmlib",
+											"else {",
+											"    console.log(\"installing and loading pmlib\");",
+											"    pm.sendRequest(\"https://joolfe.github.io/postman-util-lib/dist/bundle.js\", (err, res) => {",
+											"        pm.globals.set(\"pmlib_code\", res.text());",
+											"        eval( res.text() );",
+											"        createAndSignJwt();",
+											"    });",
+											"}",
+											"",
+											"function createAndSignJwt() {",
+											"    // create header and payload",
+											"    var jwk = JSON.parse(pm.environment.get(\"jwtAuthzGrantJWK\"));",
+											"    var sub = pm.environment.get(\"jwtAuthzGrantSub\");",
+											"    var iss = pm.environment.get(\"jwtAuthzGrantIss\");",
+											"    var aud = pm.environment.get(\"host\") + \":\" + pm.environment.get(\"port\") + pm.environment.get(\"am-context\") + \"/oauth2\" + pm.environment.get(\"realm\") + \"/access_token\";",
+											"",
+											"    var header = {",
+											"        \"typ\": \"JWT\",",
+											"        \"alg\": \"RS256\"",
+											"    };",
+											"",
+											"    var payload = {",
+											"        iss,",
+											"        sub,",
+											"        aud,",
+											"    };",
+											"",
+											"    // create and sign JWT",
+											"    var jwt = pmlib.jwtSign(jwk, payload, header, exp = 60 * 30, alg = \"RS256\");",
+											"",
+											"    postman.setEnvironmentVariable(\"jwtAuthzGrantAassertion\", jwt);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"openamAccessToken\", jsonData.access_token);",
+											"postman.setEnvironmentVariable(\"openamRefreshToken\", jsonData.refresh_token);",
+											"postman.setEnvironmentVariable(\"openamIdToken\", jsonData.id_token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "grant_type",
+											"value": "urn:ietf:params:oauth:grant-type:jwt-bearer",
+											"type": "text"
+										},
+										{
+											"key": "assertion",
+											"value": "{{jwtAuthzGrantAassertion}}",
+											"type": "text"
+										},
+										{
+											"key": "scope",
+											"value": "product1 product2 secctx",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "volker-m2m-jwt",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{host}}{{am-context}}/oauth2{{realm}}/access_token",
+									"host": [
+										"{{host}}{{am-context}}"
+									],
+									"path": [
+										"oauth2{{realm}}",
+										"access_token"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/introspect (RFC7523, jwt bearer, client auth)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// load pmlib",
+											"if (pm.globals.get('pmlib_code')) {",
+											"    console.log(\"loading pmlib\");",
+											"    eval( pm.globals.get('pmlib_code') );",
+											"    createAndSignJwt();",
+											"}",
+											"// install and load pmlib",
+											"else {",
+											"    console.log(\"installing and loading pmlib\");",
+											"    pm.sendRequest(\"https://joolfe.github.io/postman-util-lib/dist/bundle.js\", (err, res) => {",
+											"        pm.globals.set(\"pmlib_code\", res.text());",
+											"        eval( res.text() );",
+											"        createAndSignJwt();",
+											"    });",
+											"}",
+											"",
+											"function createAndSignJwt() {",
+											"    // create header and payload",
+											"    var jwk = JSON.parse(pm.environment.get(\"jwtClientAuthJWK\"));",
+											"    var clientId = pm.environment.get(\"jwtClientAuthClientId\");",
+											"    var sub = clientId;",
+											"    var iss = clientId;",
+											"    var aud = pm.environment.get(\"host\") + \":\" + pm.environment.get(\"port\") + pm.environment.get(\"am-context\") + \"/oauth2\" + pm.environment.get(\"realm\") + \"/access_token\";",
+											"",
+											"    var header = {",
+											"        \"typ\": \"JWT\",",
+											"        \"alg\": \"RS256\"",
+											"    };",
+											"",
+											"    var payload = {",
+											"        iss,",
+											"        sub,",
+											"        aud,",
+											"    };",
+											"",
+											"    // create and sign JWT",
+											"    var jwt = pmlib.jwtSign(jwk, payload, header, exp = 60 * 5, alg = \"RS256\");",
+											"",
+											"    postman.setEnvironmentVariable(\"jwtClientAuthClientAassertion\", jwt);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "client_assertion_type",
+											"value": "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+											"type": "text"
+										},
+										{
+											"key": "client_assertion",
+											"value": "{{jwtClientAuthClientAassertion}}",
+											"type": "text"
+										},
+										{
+											"key": "token",
+											"value": "{{openamAccessToken}}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{host}}{{am-context}}/oauth2{{realm}}/introspect",
+									"host": [
+										"{{host}}{{am-context}}"
+									],
+									"path": [
+										"oauth2{{realm}}",
+										"introspect"
 									]
 								}
 							},
@@ -6004,82 +6235,6 @@
 											"key": "_queryFilter",
 											"value": "true"
 										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "/access_token (Client Creds, JWT auth)",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"var jsonData = JSON.parse(responseBody);",
-											"postman.setEnvironmentVariable(\"openamAccessToken\", jsonData.access_token);",
-											"postman.setEnvironmentVariable(\"openamRefreshToken\", jsonData.refresh_token);",
-											"postman.setEnvironmentVariable(\"openamIdToken\", jsonData.id_token);"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "noauth"
-								},
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/x-www-form-urlencoded",
-										"disabled": true
-									},
-									{
-										"key": "Authorization",
-										"value": "Basic Y2RzOmNkcw==",
-										"disabled": true
-									}
-								],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "grant_type",
-											"value": "client_credentials",
-											"type": "text"
-										},
-										{
-											"key": "scope",
-											"value": "mail",
-											"type": "text"
-										},
-										{
-											"key": "client_assertion_type",
-											"value": "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
-											"type": "text"
-										},
-										{
-											"key": "client_assertion",
-											"value": "eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJjYy1jbGllbnQiLCJzdWIiOiJjYy1jbGllbnQiLCJhdWQiOiJodHRwczovL29wZW5hbS1jaGljby1wb2MuZm9yZ2VibG9ja3MuY29tOjQ0My9hbS9vYXV0aDIvYWxwaGEvYWNjZXNzX3Rva2VuIiwiZXhwIjoxNjQzOTI5MTExLCJqdGkiOiJqanlQOTI5c3E4My9Ra20xRGRENC9RPT0ifQ.DK-Z-RkpcGgHWco5bMvLd24y3805vMicWBaR3PLAY1-vSGGv3j5JNGwV0uPUeiGmpwXkjuYdeCuPWC2zXC57ag",
-											"type": "text"
-										},
-										{
-											"key": "client_id",
-											"value": "cc-client",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{host}}{{am-context}}/oauth2{{realm}}/access_token",
-									"host": [
-										"{{host}}{{am-context}}"
-									],
-									"path": [
-										"oauth2{{realm}}",
-										"access_token"
 									]
 								}
 							},
